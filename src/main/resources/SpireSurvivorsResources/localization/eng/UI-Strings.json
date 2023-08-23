@@ -1,0 +1,41 @@
+{
+  "SpireSurvivors:ModConfigs": {
+    "TEXT": [
+      "Enable Mod",
+      "Lantern Mode",
+      "Light Radius (default 360)",
+      "Lantern Mode Decay (default 5)",
+      "Ambient Light (default 0)",
+      "Map Glow Colorful",
+      "Glowing Map"
+    ]
+  },
+  "SpireSurvivors:MainMenu": {
+    "TEXT": [
+      "Survivors Mode",
+      "Play Survivors",
+      "Last as long as you can against an endless hoard of enemies."
+    ]
+  },
+  "SpireSurvivors:SurvivorSelectMenu": {
+    "TEXT": [
+      "Survivors Mode"
+    ]
+  },
+  "SpireSurvivors:SurvivorSelectScreen": {
+    "TEXT": [
+      "Embark",
+      "Level ",
+      "Reset",
+      "Prestige ",
+      "Core",
+      "Aspects",
+      "Special"
+    ]
+  },
+  "SpireSurvivors:SurvivorDungeon": {
+    "TEXT": [
+      "Survivors"
+    ]
+  }
+}
