@@ -11,21 +11,51 @@ import com.megacrit.cardcrawl.core.AbstractCreature;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
+import com.megacrit.cardcrawl.vfx.combat.StrikeEffect;
 
 public class SurvivorMonster {
     public AbstractMonster monster;
+    public int damage = 1;
     public float speed = 1f;
-    public SurvivorMonster(AbstractMonster monster) {
-        this.monster = monster;
+    public float hitDelay = 1f;
+    protected float hitTimer = 0f;
+    public SurvivorMonster(AbstractMonster m) {
+        monster = m;
+        monster.hb.height /= 4f;
+        monster.hb.width /= 4f;
+        monster.hb.move(monster.drawX, monster.drawY-monster.hb.height*3/2);
+        monster.showHealthBar();
+    }
+
+    public void damage(SurvivorPlayer attacker, int amount) {
+        monster.currentHealth -= amount;
+        monster.healthBarUpdatedEvent();
+        SurvivorDungeon.effectsQueue.add(new StrikeEffect(monster, monster.hb.cX, monster.hb.cY, amount));
+        if (monster.currentHealth <= 0) {
+            monster.useSlowAttackAnimation();
+            monster.isDead = true;
+        }
     }
 
     public void update() {
+        monster.update();
         Vector2 dir = new Vector2(SurvivorDungeon.player.basePlayer.hb.cX - monster.hb.cX, SurvivorDungeon.player.basePlayer.hb.cY - monster.hb.cY);
         dir.nor();
         dir.scl(speed);
-        monster.drawX += dir.x;
-        monster.drawY += dir.y;
-        monster.hb.move(monster.hb.cX + dir.x, monster.hb.cY + dir.y);
+        move(dir.x, dir.y);
+        if (hitTimer > 0f) {
+            hitTimer -= Gdx.graphics.getDeltaTime();
+        }
+        if (hitTimer <= 0f && monster.hb.intersects(SurvivorDungeon.player.basePlayer.hb)) {
+            SurvivorDungeon.player.damage(this, damage);
+            hitTimer = hitDelay;
+        }
+    }
+
+    public void move(float dx, float dy) {
+        monster.drawX += dx;
+        monster.drawY += dy;
+        monster.hb.move(monster.hb.cX + dx, monster.hb.cY + dy - monster.hb.height*3/2);
     }
 
     public void render(SpriteBatch sb) {
@@ -49,8 +79,9 @@ public class SurvivorMonster {
             CardCrawlGame.psb.end();// 889
             sb.begin();// 890
             sb.setBlendFunction(770, 771);// 891
-            monster.renderHealth(sb);
+
         }
+        monster.renderHealth(sb);
         monster.hb.render(sb);
     }
 }
