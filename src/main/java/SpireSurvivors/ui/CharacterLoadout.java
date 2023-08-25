@@ -1,7 +1,7 @@
 package SpireSurvivors.ui;
 
 import SpireSurvivors.SpireSurvivorsMod;
-import SpireSurvivors.SurvivorSelectScreen;
+import SpireSurvivors.screens.mainMenu.SurvivorSelectScreen;
 import SpireSurvivors.patches.MainMenuPatches;
 import SpireSurvivors.util.CharacterSaveFile;
 import com.badlogic.gdx.Gdx;

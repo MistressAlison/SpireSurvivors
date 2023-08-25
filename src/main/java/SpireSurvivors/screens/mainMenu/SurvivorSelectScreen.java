@@ -1,6 +1,7 @@
-package SpireSurvivors;
+package SpireSurvivors.screens.mainMenu;
 
 
+import SpireSurvivors.SpireSurvivorsMod;
 import SpireSurvivors.patches.CardCrawlGamePatches;
 import SpireSurvivors.patches.MainMenuPatches;
 import SpireSurvivors.ui.CharacterLoadout;
@@ -16,9 +17,7 @@ import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.helpers.*;
 import com.megacrit.cardcrawl.helpers.input.InputHelper;
 import com.megacrit.cardcrawl.localization.UIStrings;
-import com.megacrit.cardcrawl.metrics.BotDataUploader;
 import com.megacrit.cardcrawl.random.Random;
-import com.megacrit.cardcrawl.screens.charSelect.CharacterOption;
 import com.megacrit.cardcrawl.screens.charSelect.CharacterSelectScreen;
 import com.megacrit.cardcrawl.screens.mainMenu.MainMenuScreen;
 import com.megacrit.cardcrawl.screens.mainMenu.MenuCancelButton;
@@ -26,7 +25,6 @@ import com.megacrit.cardcrawl.ui.buttons.ConfirmButton;
 
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.Iterator;
 
 public class SurvivorSelectScreen {
     private static final UIStrings uiStrings = CardCrawlGame.languagePack.getUIString(SpireSurvivorsMod.makeID("SurvivorSelectScreen"));
@@ -198,8 +196,10 @@ public class SurvivorSelectScreen {
                 Settings.seedSet = true;// 305
             }
 
-            CardCrawlGame.mainMenuScreen.isFadingOut = true;// 308
-            CardCrawlGame.mainMenuScreen.fadeOutMusic();// 309
+            CardCrawlGame.fadeToBlack(1.0f);
+            CardCrawlGame.mainMenuScreen.fadeOutMusic();
+            //Lets CardCrawlGame know to load a dungeon, which we then patch
+            CardCrawlGame.mainMenuScreen.isFadingOut = true;
             CardCrawlGamePatches.loadSurvivorMode = true;
 
             ModHelper.setModsFalse();

@@ -1,8 +1,8 @@
 package SpireSurvivors;
 
+import SpireSurvivors.entity.AbstractSurvivorPlayer;
 import SpireSurvivors.util.TextureLoader;
 import basemod.*;
-import basemod.helpers.ScreenPostProcessorManager;
 import basemod.interfaces.EditStringsSubscriber;
 import basemod.interfaces.PostInitializeSubscriber;
 import basemod.interfaces.PostRenderSubscriber;
@@ -12,6 +12,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.evacipated.cardcrawl.modthespire.lib.SpireConfig;
 import com.evacipated.cardcrawl.modthespire.lib.SpireInitializer;
+import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.helpers.FontHelper;
@@ -22,6 +23,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Properties;
 
 @SpireInitializer
@@ -77,6 +79,8 @@ public class SpireSurvivorsMod implements EditStringsSubscriber, PostInitializeS
     public static final String BADGE_IMAGE = "SpireSurvivorsResources/images/Badge.png";
 
     public static final ArrayList<AbstractGameEffect> managedEffects = new ArrayList<>();
+
+    public static final HashMap<AbstractPlayer.PlayerClass, AbstractSurvivorPlayer> registeredCharacters = new HashMap<>();
 
     public SpireSurvivorsMod() {
         logger.info("Subscribe to BaseMod hooks");

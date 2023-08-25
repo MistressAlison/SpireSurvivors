@@ -1,7 +1,7 @@
 package SpireSurvivors.patches;
 
 import SpireSurvivors.SpireSurvivorsMod;
-import SpireSurvivors.SurvivorSelectScreen;
+import SpireSurvivors.screens.mainMenu.SurvivorSelectScreen;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.evacipated.cardcrawl.modthespire.lib.*;

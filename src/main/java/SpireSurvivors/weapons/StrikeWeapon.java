@@ -14,7 +14,7 @@ public class StrikeWeapon extends AbstractSurvivorWeapon {
     @Override
     public void attack(Vector2 lookdir) {
         Vector2 aim = lookdir.cpy().clamp(10f * Settings.scale, 100f * Settings.scale);
-        SurvivorDungeon.effectsQueue.add(new BasicAttackEffect(damage, CX + aim.x, CY + aim.y + SurvivorDungeon.player.basePlayer.hb.height/2f, AbstractGameAction.AttackEffect.BLUNT_LIGHT));
+        SurvivorDungeon.effectsQueue.add(new BasicAttackEffect(this, CX + aim.x, CY + aim.y + SurvivorDungeon.player.basePlayer.hb.height/2f, AbstractGameAction.AttackEffect.BLUNT_LIGHT));
     }
 
     @Override
