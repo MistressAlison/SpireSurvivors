@@ -1,0 +1,25 @@
+package SpireSurvivors.weapons;
+
+import SpireSurvivors.dungeon.SurvivorDungeon;
+import SpireSurvivors.effects.BasicAttackEffect;
+import SpireSurvivors.effects.FlyingDaggerAttackEffect;
+import com.badlogic.gdx.math.Vector2;
+import com.megacrit.cardcrawl.actions.AbstractGameAction;
+import com.megacrit.cardcrawl.core.Settings;
+
+public class DaggerThrowWeapon extends AbstractSurvivorWeapon {
+    public DaggerThrowWeapon() {
+        super(6, 1, 1);
+    }
+
+    @Override
+    public void attack(Vector2 lookdir) {
+        Vector2 aim = lookdir.cpy().clamp(10f * Settings.scale, 100f * Settings.scale);
+        SurvivorDungeon.effectsQueue.add(new FlyingDaggerAttackEffect(this, SurvivorDungeon.player.basePlayer.hb.cX, SurvivorDungeon.player.basePlayer.hb.cY, lookdir.angle()));
+    }
+
+    @Override
+    public void upgrade() {
+        damage += 2;
+    }
+}

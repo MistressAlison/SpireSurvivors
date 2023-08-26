@@ -1,5 +1,7 @@
 package SpireSurvivors;
 
+import SpireSurvivors.characters.IroncladCharacter;
+import SpireSurvivors.characters.SilentCharacter;
 import SpireSurvivors.entity.AbstractSurvivorPlayer;
 import SpireSurvivors.util.TextureLoader;
 import basemod.*;
@@ -25,6 +27,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Properties;
+import java.util.function.Function;
 
 @SpireInitializer
 public class SpireSurvivorsMod implements EditStringsSubscriber, PostInitializeSubscriber, PostRenderSubscriber, PostUpdateSubscriber {
@@ -80,7 +83,7 @@ public class SpireSurvivorsMod implements EditStringsSubscriber, PostInitializeS
 
     public static final ArrayList<AbstractGameEffect> managedEffects = new ArrayList<>();
 
-    public static final HashMap<AbstractPlayer.PlayerClass, AbstractSurvivorPlayer> registeredCharacters = new HashMap<>();
+    public static final HashMap<AbstractPlayer.PlayerClass, Function<AbstractPlayer, AbstractSurvivorPlayer>> registeredCharacters = new HashMap<>();
 
     public SpireSurvivorsMod() {
         logger.info("Subscribe to BaseMod hooks");
@@ -125,6 +128,9 @@ public class SpireSurvivorsMod implements EditStringsSubscriber, PostInitializeS
     }
 
     public void receivePostInitialize() {
+        //Load characters
+        registerCharacter(AbstractPlayer.PlayerClass.IRONCLAD, IroncladCharacter::new);
+        registerCharacter(AbstractPlayer.PlayerClass.THE_SILENT, SilentCharacter::new);
         logger.info("Loading badge image and mod options");
         uiStrings = CardCrawlGame.languagePack.getUIString(makeID("ModConfigs"));
         EXTRA_TEXT = uiStrings.EXTRA_TEXT;
@@ -271,5 +277,9 @@ public class SpireSurvivorsMod implements EditStringsSubscriber, PostInitializeS
             e.update();
         }
         managedEffects.removeIf(e -> e.isDone);
+    }
+
+    public static void registerCharacter(AbstractPlayer.PlayerClass pc, Function<AbstractPlayer, AbstractSurvivorPlayer> getter) {
+        registeredCharacters.put(pc, getter);
     }
 }

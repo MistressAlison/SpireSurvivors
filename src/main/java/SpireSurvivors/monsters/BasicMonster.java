@@ -12,7 +12,7 @@ public class BasicMonster extends AbstractSurvivorMonster {
 
     @Override
     public void movementUpdate() {
-        Vector2 dir = new Vector2(SurvivorDungeon.player.basePlayer.hb.cX - monster.hb.cX, SurvivorDungeon.player.basePlayer.hb.cY - monster.hb.cY);
+        Vector2 dir = new Vector2(SurvivorDungeon.player.basePlayer.hb.cX - monster.hb.cX, SurvivorDungeon.player.basePlayer.hb.cY  - SurvivorDungeon.player.basePlayer.hb.height/2f- monster.hb.cY);
         dir.nor();
         dir.scl(speed);
         move(dir.x, dir.y);

@@ -2,12 +2,15 @@ package SpireSurvivors.entity;
 
 import SpireSurvivors.dungeon.SurvivorDungeon;
 import SpireSurvivors.patches.CardCrawlGamePatches;
+import SpireSurvivors.util.PolygonHelper;
 import SpireSurvivors.weapons.AbstractSurvivorWeapon;
 import basemod.ReflectionHacks;
 import basemod.abstracts.CustomPlayer;
 import basemod.animations.AbstractAnimation;
 import basemod.animations.SpriterAnimation;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.brashmonkey.spriter.Player;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
@@ -28,8 +31,9 @@ public abstract class AbstractSurvivorPlayer extends AbstractSurvivorEntity {
         basePlayer.drawX = Settings.WIDTH/2f;
         basePlayer.drawY = Settings.HEIGHT/2f;
         basePlayer.hb.width /= 4f;
-        basePlayer.hb.height /= 4f;
+        basePlayer.hb.height /= 6f;
         basePlayer.hb.move(Settings.WIDTH/2f, Settings.HEIGHT/2f+basePlayer.hb.height/2f);
+        hitbox = PolygonHelper.fromHitbox(basePlayer.hb);
         basePlayer.showHealthBar();
 
         if (basePlayer instanceof CustomPlayer) {
@@ -62,7 +66,7 @@ public abstract class AbstractSurvivorPlayer extends AbstractSurvivorEntity {
         if (basePlayer.currentHealth <= 0) {
             CardCrawlGame.music.dispose();
             CardCrawlGame.sound.play("DEATH_STINGER", true);
-            String bgmKey = null;
+            /*String bgmKey = null;
             switch (MathUtils.random(0, 3)) {
                 case 0:
                     bgmKey = "STS_DeathStinger_1_v3_MUSIC.ogg";
@@ -77,7 +81,7 @@ public abstract class AbstractSurvivorPlayer extends AbstractSurvivorEntity {
                     bgmKey = "STS_DeathStinger_4_v3_MUSIC.ogg";
                     break;
             }
-            CardCrawlGame.music.playTempBgmInstantly(bgmKey, false);
+            CardCrawlGame.music.playTempBgmInstantly(bgmKey, false);*/
             basePlayer.playDeathAnimation();
             CardCrawlGame.startOver();
             CardCrawlGamePatches.survivorGame = null;

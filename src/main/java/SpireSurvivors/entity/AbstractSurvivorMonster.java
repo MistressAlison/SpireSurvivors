@@ -1,13 +1,15 @@
 package SpireSurvivors.entity;
 
 import SpireSurvivors.dungeon.SurvivorDungeon;
+import SpireSurvivors.util.PolygonHelper;
 import SpireSurvivors.weapons.AbstractSurvivorWeapon;
 import SpireSurvivors.weapons.monster.MonsterCollisionWeapon;
 import basemod.ReflectionHacks;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.esotericsoftware.spine.Skeleton;
 import com.megacrit.cardcrawl.core.AbstractCreature;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
@@ -23,7 +25,8 @@ public abstract class AbstractSurvivorMonster extends AbstractSurvivorEntity {
         monster = m;
         monster.hb.height /= 4f;
         monster.hb.width /= 4f;
-        monster.hb.move(monster.drawX, monster.drawY-monster.hb.height*3/2);
+        monster.hb_y -= monster.hb.height*3/2;
+        hitbox = PolygonHelper.fromPosition(monster.hb.cX, monster.hb.cY - monster.hb.height*3/2, monster.hb.width, m.hb.height);
         monster.showHealthBar();
         collisionWeapon = new MonsterCollisionWeapon(collisionDamage, 1f, 1);
         speed = moveSpeed;
@@ -32,7 +35,8 @@ public abstract class AbstractSurvivorMonster extends AbstractSurvivorEntity {
     public void move(float dx, float dy) {
         monster.drawX += dx;
         monster.drawY += dy;
-        monster.hb.move(monster.hb.cX + dx, monster.hb.cY + dy - monster.hb.height*3/2);
+        hitbox.translate(dx, dy);
+        //monster.hb.move(monster.hb.cX + dx, monster.hb.cY + dy - monster.hb.height*3/2);
     }
 
     @Override
@@ -41,7 +45,7 @@ public abstract class AbstractSurvivorMonster extends AbstractSurvivorEntity {
         monster.healthBarUpdatedEvent();
         SurvivorDungeon.effectsQueue.add(new StrikeEffect(monster, monster.hb.cX, monster.hb.cY, weapon.damage));
         if (monster.currentHealth <= 0) {
-            monster.useSlowAttackAnimation();
+            monster.useFastShakeAnimation(1.0f);
             monster.isDead = true;
         }
     }
@@ -49,10 +53,11 @@ public abstract class AbstractSurvivorMonster extends AbstractSurvivorEntity {
     @Override
     public void update() {
         super.update();
-        monster.update();
         movementUpdate();
+        monster.update();
+        monster.flipHorizontal = SurvivorDungeon.player.basePlayer.hb.cX > monster.hb.cX;
         collisionWeapon.update();
-        if (collisionWeapon.offCooldown() && monster.hb.intersects(SurvivorDungeon.player.basePlayer.hb)) {
+        if (collisionWeapon.offCooldown() && PolygonHelper.collides(hitbox, SurvivorDungeon.player.hitbox)) {
             SurvivorDungeon.player.damage(this, collisionWeapon);
             collisionWeapon.onHit();
         }
@@ -85,5 +90,10 @@ public abstract class AbstractSurvivorMonster extends AbstractSurvivorEntity {
         }
         monster.renderHealth(sb);
         monster.hb.render(sb);
+        //Very buggy visually, but useful for debugging
+        /*sr.begin(ShapeRenderer.ShapeType.Line);
+        sr.setColor(Color.WHITE.cpy());
+        sr.polygon(hitbox.getTransformedVertices());
+        sr.end();*/
     }
 }

@@ -9,6 +9,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
@@ -46,7 +47,7 @@ public class SurvivorDungeon {
     public static float worldX, worldY;
 
     public SurvivorDungeon(AbstractPlayer player) {
-        SurvivorDungeon.player = SpireSurvivorsMod.registeredCharacters.getOrDefault(player.chosenClass, new BasicCharacter(player));
+        SurvivorDungeon.player = SpireSurvivorsMod.registeredCharacters.getOrDefault(player.chosenClass, BasicCharacter::new).apply(player);
         AbstractDungeon.miscRng = new Random(Settings.seed);
         CardCrawlGame.music.changeBGM(Exordium.ID);
         Settings.hideCombatElements = false;

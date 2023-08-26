@@ -19,7 +19,6 @@ public class MonsterCollisionWeapon extends AbstractSurvivorWeapon {
 
     @Override
     public void update() {
-        timer -= Gdx.graphics.getDeltaTime();
         if (timer > 0f) {
             timer -= Gdx.graphics.getDeltaTime();
         }
