@@ -3,7 +3,7 @@ package SpireSurvivors.effects;
 import SpireSurvivors.dungeon.SurvivorDungeon;
 import SpireSurvivors.entity.AbstractSurvivorMonster;
 import SpireSurvivors.util.PolygonHelper;
-import SpireSurvivors.weapons.AbstractSurvivorWeapon;
+import SpireSurvivors.weapons.abstracts.AbstractSurvivorWeapon;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Polygon;
 import com.megacrit.cardcrawl.actions.AbstractGameAction;
@@ -42,5 +42,6 @@ public class BasicAttackEffect extends FlashAtkImgEffect {
     @Override
     public void render(SpriteBatch sb) {
         super.render(sb);
+        PolygonHelper.renderPolygon(hitbox, sb);
     }
 }

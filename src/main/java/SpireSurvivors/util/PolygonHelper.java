@@ -1,12 +1,17 @@
 package SpireSurvivors.util;
 
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
+import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.helpers.Hitbox;
 
 public class PolygonHelper {
+    public static final ShapeRenderer sr = new ShapeRenderer();
+
     public static Polygon fromPosition(float x, float y, float width, float height) {
         Polygon p = new Polygon(new float[]{0,0, width,0, width,height, 0,height});
         p.setOrigin(width/2f, height/2f);
@@ -40,5 +45,13 @@ public class PolygonHelper {
 
     public static boolean collides(Polygon a, Polygon b) {
         return Intersector.overlapConvexPolygons(a, b);
+    }
+
+    public static void renderPolygon(Polygon g, SpriteBatch sb) {
+        sb.end();
+        sr.begin(ShapeRenderer.ShapeType.Line);
+        sr.polygon(g.getTransformedVertices());
+        sr.end();
+        sb.begin();
     }
 }

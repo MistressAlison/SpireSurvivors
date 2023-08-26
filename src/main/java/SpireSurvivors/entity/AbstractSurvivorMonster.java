@@ -2,14 +2,12 @@ package SpireSurvivors.entity;
 
 import SpireSurvivors.dungeon.SurvivorDungeon;
 import SpireSurvivors.util.PolygonHelper;
-import SpireSurvivors.weapons.AbstractSurvivorWeapon;
+import SpireSurvivors.weapons.abstracts.AbstractSurvivorWeapon;
 import SpireSurvivors.weapons.monster.MonsterCollisionWeapon;
 import basemod.ReflectionHacks;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.esotericsoftware.spine.Skeleton;
 import com.megacrit.cardcrawl.core.AbstractCreature;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
@@ -90,10 +88,5 @@ public abstract class AbstractSurvivorMonster extends AbstractSurvivorEntity {
         }
         monster.renderHealth(sb);
         monster.hb.render(sb);
-        //Very buggy visually, but useful for debugging
-        /*sr.begin(ShapeRenderer.ShapeType.Line);
-        sr.setColor(Color.WHITE.cpy());
-        sr.polygon(hitbox.getTransformedVertices());
-        sr.end();*/
     }
 }

@@ -1,15 +1,13 @@
 package SpireSurvivors.effects;
 
 import SpireSurvivors.dungeon.SurvivorDungeon;
-import SpireSurvivors.entity.AbstractSurvivorEntity;
 import SpireSurvivors.entity.AbstractSurvivorMonster;
 import SpireSurvivors.util.PolygonHelper;
-import SpireSurvivors.weapons.AbstractSurvivorWeapon;
+import SpireSurvivors.weapons.abstracts.AbstractSurvivorWeapon;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Polygon;
@@ -18,7 +16,6 @@ import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.helpers.Hitbox;
 import com.megacrit.cardcrawl.helpers.ImageMaster;
-import com.megacrit.cardcrawl.helpers.MathHelper;
 import com.megacrit.cardcrawl.vfx.AbstractGameEffect;
 
 import java.util.ArrayList;

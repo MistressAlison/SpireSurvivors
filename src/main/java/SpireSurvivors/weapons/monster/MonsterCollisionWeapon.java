@@ -1,6 +1,6 @@
 package SpireSurvivors.weapons.monster;
 
-import SpireSurvivors.weapons.AbstractSurvivorWeapon;
+import SpireSurvivors.weapons.abstracts.AbstractSurvivorWeapon;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 

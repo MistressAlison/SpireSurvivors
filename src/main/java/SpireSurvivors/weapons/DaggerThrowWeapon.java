@@ -1,10 +1,9 @@
 package SpireSurvivors.weapons;
 
 import SpireSurvivors.dungeon.SurvivorDungeon;
-import SpireSurvivors.effects.BasicAttackEffect;
 import SpireSurvivors.effects.FlyingDaggerAttackEffect;
+import SpireSurvivors.weapons.abstracts.AbstractSurvivorWeapon;
 import com.badlogic.gdx.math.Vector2;
-import com.megacrit.cardcrawl.actions.AbstractGameAction;
 import com.megacrit.cardcrawl.core.Settings;
 
 public class DaggerThrowWeapon extends AbstractSurvivorWeapon {
