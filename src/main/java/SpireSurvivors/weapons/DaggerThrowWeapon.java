@@ -8,7 +8,7 @@ import com.megacrit.cardcrawl.core.Settings;
 
 public class DaggerThrowWeapon extends AbstractSurvivorWeapon {
     public DaggerThrowWeapon() {
-        super(6, 1, 1);
+        super(4, 0.5f, 1);
     }
 
     @Override
