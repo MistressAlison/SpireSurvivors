@@ -53,6 +53,7 @@ public class SurvivorDungeon {
         CardCrawlGame.music.changeBGM(Exordium.ID);
         Settings.hideCombatElements = false;
         clear();
+        ui = new SurvivorUI();
         CardCrawlGame.fadeIn(0.5f);
     }
 
