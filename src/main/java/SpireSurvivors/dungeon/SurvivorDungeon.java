@@ -8,8 +8,14 @@ import SpireSurvivors.monsters.BasicMonster;
 import SpireSurvivors.ui.SurvivorUI;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TmxMapLoader;
+import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
@@ -46,7 +52,9 @@ public class SurvivorDungeon {
     public static float waveTimer;
     public static int waveCounter;
     public static float worldX, worldY;
-
+    public static TiledMap map;
+    public static OrthographicCamera camera;
+    public static OrthogonalTiledMapRenderer mapRenderer;
     public SurvivorDungeon(AbstractPlayer player) {
         SurvivorDungeon.player = SpireSurvivorsMod.registeredCharacters.getOrDefault(player.chosenClass, BasicCharacter::new).apply(player);
         AbstractDungeon.miscRng = new Random(Settings.seed);
@@ -55,6 +63,10 @@ public class SurvivorDungeon {
         clear();
         ui = new SurvivorUI();
         CardCrawlGame.fadeIn(0.5f);
+        camera = new OrthographicCamera();
+        camera.setToOrtho(false);
+        map = new TmxMapLoader().load(SpireSurvivorsMod.getModID()+"Resources/tiled/TestMap.tmx");
+        mapRenderer = new OrthogonalTiledMapRenderer(map, 16f);
     }
 
     public void update() {
@@ -83,6 +95,11 @@ public class SurvivorDungeon {
 
     public void render(SpriteBatch sb) {
         sb.draw(BACKGROUND, 0, 0, Settings.WIDTH, Settings.HEIGHT);
+        sb.end();
+        camera.update();
+        mapRenderer.setView(camera);
+        mapRenderer.render();
+        sb.begin();
         for (AbstractSurvivorMonster m : monsters) {
             if (m.monster.hb.cY <= Settings.HEIGHT/2f) {
                 m.render(sb);
@@ -127,6 +144,9 @@ public class SurvivorDungeon {
         for (AbstractSurvivorMonster m : monsters) {
             m.move(-dir.x, -dir.y);
         }
+        worldX += dir.x;
+        worldY += dir.y;
+        camera.translate(dir);
     }
 
     public void spawnMonsters() {
@@ -152,5 +172,8 @@ public class SurvivorDungeon {
         monsters.clear();
         effects.clear();
         effectsQueue.clear();
+        if (map != null) {
+            map.dispose();
+        }
     }
 }
