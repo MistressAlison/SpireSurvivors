@@ -5,11 +5,11 @@ import SpireSurvivors.characters.BasicCharacter;
 import SpireSurvivors.entity.AbstractSurvivorMonster;
 import SpireSurvivors.entity.AbstractSurvivorPlayer;
 import SpireSurvivors.monsters.BasicMonster;
+import SpireSurvivors.ui.SurvivorUI;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
@@ -39,6 +39,7 @@ public class SurvivorDungeon {
     public static final float MX = Settings.WIDTH * -0.75F;
     public static final float MY = -AbstractDungeon.floorY;
     public static AbstractSurvivorPlayer player;
+    public static SurvivorUI ui;
     public static ArrayList<AbstractSurvivorMonster> monsters = new ArrayList<>();
     public static ArrayList<AbstractGameEffect> effects = new ArrayList<>();
     public static ArrayList<AbstractGameEffect> effectsQueue = new ArrayList<>();
@@ -76,18 +77,26 @@ public class SurvivorDungeon {
             e.update();
         }
         effects.removeIf(e -> e.isDone);
-
+        ui.update();
     }
 
     public void render(SpriteBatch sb) {
         sb.draw(BACKGROUND, 0, 0, Settings.WIDTH, Settings.HEIGHT);
         for (AbstractSurvivorMonster m : monsters) {
-            m.render(sb);
+            if (m.monster.hb.cY <= Settings.HEIGHT/2f) {
+                m.render(sb);
+            }
         }
         player.render(sb);
+        for (AbstractSurvivorMonster m : monsters) {
+            if (m.monster.hb.cY > Settings.HEIGHT/2f) {
+                m.render(sb);
+            }
+        }
         for (AbstractGameEffect e : effects) {
             e.render(sb);
         }
+        ui.render(sb);
     }
 
     public void updateInput() {
