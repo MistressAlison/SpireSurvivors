@@ -43,6 +43,14 @@ public class PolygonHelper {
         return p;
     }
 
+    public static Polygon fromHitbox(Hitbox hb, float rotation) {
+            Polygon p = new Polygon(new float[]{0,0, hb.width,0, hb.width,hb.height, 0,hb.height});
+            p.setOrigin(hb.cX, hb.cY);
+            p.rotate(rotation);
+            p.setPosition(hb.x, hb.y);
+            return p;
+        }
+
     public static boolean collides(Polygon a, Polygon b) {
         return Intersector.overlapConvexPolygons(a, b);
     }
