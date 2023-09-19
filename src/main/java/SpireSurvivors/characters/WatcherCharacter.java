@@ -1,7 +1,6 @@
 package SpireSurvivors.characters;
 
 import SpireSurvivors.entity.AbstractSurvivorPlayer;
-import SpireSurvivors.weapons.FlamethrowerWeapon;
 import SpireSurvivors.weapons.LightParticleThrowWeapon;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 

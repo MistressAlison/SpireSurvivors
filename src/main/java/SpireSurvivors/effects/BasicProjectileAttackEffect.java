@@ -138,11 +138,7 @@ public class BasicProjectileAttackEffect extends AbstractGameEffect {
     public void render(SpriteBatch sb) {
         sb.setColor(this.color);
         sb.draw(this.img, this.x, this.y, (float) this.img.packedWidth / 2.0F, (float) this.img.packedHeight / 2.0F, (float) this.img.packedWidth, (float) this.img.packedHeight, this.scale, this.scale, this.rotation);
-        /*sb.draw(this.img, this.x, this.y, (float) this.img.packedWidth / 2.0F, (float) this.img.packedHeight / 2.0F, (float) this.img.packedWidth, (float) this.img.packedHeight, this.scale, this.scale * 1.5F, this.rotation);
-        sb.setBlendFunction(770, 1);
-        sb.draw(this.img, this.x, this.y, (float) this.img.packedWidth / 2.0F, (float) this.img.packedHeight / 2.0F, (float) this.img.packedWidth, (float) this.img.packedHeight, this.scale * 0.75F, this.scale * 0.75F, this.rotation);
-        sb.setBlendFunction(770, 771);*/
-        PolygonHelper.renderPolygon(hitbox, sb);
+        //PolygonHelper.renderPolygon(hitbox, sb);
     }
 
     public void dispose() {
