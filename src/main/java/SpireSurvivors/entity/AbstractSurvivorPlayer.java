@@ -21,7 +21,7 @@ import java.lang.reflect.Field;
 
 public abstract class AbstractSurvivorPlayer extends AbstractSurvivorEntity {
     public AbstractPlayer basePlayer;
-    public float attackspeedModifier = 0.3f;
+    public float attackspeedModifier = 1f;
     public float critChance = 0f;
     public float critDamage = 2f;
     public float rangeModifier = 1f;
