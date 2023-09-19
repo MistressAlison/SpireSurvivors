@@ -1,7 +1,9 @@
 package SpireSurvivors;
 
+import SpireSurvivors.characters.DefectCharacter;
 import SpireSurvivors.characters.IroncladCharacter;
 import SpireSurvivors.characters.SilentCharacter;
+import SpireSurvivors.characters.WatcherCharacter;
 import SpireSurvivors.entity.AbstractSurvivorPlayer;
 import SpireSurvivors.util.TextureLoader;
 import basemod.*;
@@ -131,6 +133,9 @@ public class SpireSurvivorsMod implements EditStringsSubscriber, PostInitializeS
         //Load characters
         registerCharacter(AbstractPlayer.PlayerClass.IRONCLAD, IroncladCharacter::new);
         registerCharacter(AbstractPlayer.PlayerClass.THE_SILENT, SilentCharacter::new);
+        registerCharacter(AbstractPlayer.PlayerClass.DEFECT, DefectCharacter::new);
+        registerCharacter(AbstractPlayer.PlayerClass.WATCHER, WatcherCharacter::new);
+        
         logger.info("Loading badge image and mod options");
         uiStrings = CardCrawlGame.languagePack.getUIString(makeID("ModConfigs"));
         EXTRA_TEXT = uiStrings.EXTRA_TEXT;
