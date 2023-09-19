@@ -40,7 +40,7 @@ public class BasicProjectileAttackEffect extends AbstractGameEffect {
         this.startingDuration = duration;
         this.duration = duration;
         //this.scaleMultiplier = MathUtils.random(1.2F, 1.5F);
-        this.scale = scale * Settings.scale;
+        this.scale = scale * Settings.scale * weapon.size;
         this.rotation = fAngle;
         this.color = color;
         this.color.a = 0.0F;
