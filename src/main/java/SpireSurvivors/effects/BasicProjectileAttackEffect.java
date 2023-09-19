@@ -2,6 +2,7 @@ package SpireSurvivors.effects;
 
 import SpireSurvivors.dungeon.SurvivorDungeon;
 import SpireSurvivors.entity.AbstractSurvivorMonster;
+import SpireSurvivors.util.CustomLighting;
 import SpireSurvivors.util.PolygonHelper;
 import SpireSurvivors.weapons.abstracts.AbstractSurvivorWeapon;
 import com.badlogic.gdx.Gdx;
@@ -19,7 +20,7 @@ import com.megacrit.cardcrawl.vfx.AbstractGameEffect;
 
 import java.util.ArrayList;
 
-public class BasicProjectileAttackEffect extends AbstractGameEffect {
+public class BasicProjectileAttackEffect extends AbstractGameEffect implements CustomLighting {
     public ArrayList<AbstractSurvivorMonster> hits = new ArrayList<>();
     public Polygon hitbox;
     public AbstractSurvivorWeapon weapon;
@@ -142,5 +143,15 @@ public class BasicProjectileAttackEffect extends AbstractGameEffect {
     }
 
     public void dispose() {
+    }
+
+    @Override
+    public float[] _lightsOutGetXYRI() {
+        return new float[] {x, y, 200f, 1.0f};
+    }
+
+    @Override
+    public Color[] _lightsOutGetColor() {
+        return new Color[] {color};
     }
 }

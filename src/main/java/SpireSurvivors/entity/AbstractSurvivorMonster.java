@@ -42,25 +42,27 @@ public abstract class AbstractSurvivorMonster extends AbstractSurvivorEntity {
 
     @Override
     public void damage(AbstractSurvivorEntity source, AbstractSurvivorWeapon weapon) {
-        float damage = weapon.damage*source.damageModifier;
-        for (AbstractPower p : SurvivorDungeon.player.basePlayer.powers) {
-            damage = p.atDamageGive(damage, DamageInfo.DamageType.NORMAL);
-        }
-        for (AbstractPower p : monster.powers) {
-            damage = p.atDamageReceive(damage, DamageInfo.DamageType.NORMAL);
-        }
-        for (AbstractPower p : SurvivorDungeon.player.basePlayer.powers) {
-            damage = p.atDamageFinalGive(damage, DamageInfo.DamageType.NORMAL);
-        }
-        for (AbstractPower p : monster.powers) {
-            damage = p.atDamageFinalReceive(damage, DamageInfo.DamageType.NORMAL);
-        }
-        monster.currentHealth -= damage;
-        monster.healthBarUpdatedEvent();
-        //SurvivorDungeon.effectsQueue.add(new StrikeEffect(monster, monster.hb.cX, monster.hb.cY, (int)damage));
-        if (monster.currentHealth <= 0) {
-            monster.useFastShakeAnimation(1.0f);
-            monster.isDead = true;
+        if (!monster.isDead) {
+            float damage = weapon.damage*source.damageModifier;
+            for (AbstractPower p : SurvivorDungeon.player.basePlayer.powers) {
+                damage = p.atDamageGive(damage, DamageInfo.DamageType.NORMAL);
+            }
+            for (AbstractPower p : monster.powers) {
+                damage = p.atDamageReceive(damage, DamageInfo.DamageType.NORMAL);
+            }
+            for (AbstractPower p : SurvivorDungeon.player.basePlayer.powers) {
+                damage = p.atDamageFinalGive(damage, DamageInfo.DamageType.NORMAL);
+            }
+            for (AbstractPower p : monster.powers) {
+                damage = p.atDamageFinalReceive(damage, DamageInfo.DamageType.NORMAL);
+            }
+            monster.currentHealth -= damage;
+            monster.healthBarUpdatedEvent();
+            //SurvivorDungeon.effectsQueue.add(new StrikeEffect(monster, monster.hb.cX, monster.hb.cY, (int)damage));
+            if (monster.currentHealth <= 0) {
+                monster.useFastShakeAnimation(1.0f);
+                monster.isDead = true;
+            }
         }
     }
 

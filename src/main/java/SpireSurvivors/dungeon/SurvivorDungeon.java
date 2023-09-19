@@ -4,6 +4,7 @@ import SpireSurvivors.SpireSurvivorsMod;
 import SpireSurvivors.characters.BasicCharacter;
 import SpireSurvivors.entity.AbstractSurvivorMonster;
 import SpireSurvivors.entity.AbstractSurvivorPlayer;
+import SpireSurvivors.patches.CardCrawlGamePatches;
 import SpireSurvivors.pickups.AbstractSurvivorInteractable;
 import SpireSurvivors.pickups.XPPickup;
 import SpireSurvivors.ui.SurvivorPauseScreen;
@@ -27,7 +28,10 @@ import com.megacrit.cardcrawl.helpers.input.InputAction;
 import com.megacrit.cardcrawl.random.Random;
 import com.megacrit.cardcrawl.vfx.AbstractGameEffect;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Collection;
 
 public class SurvivorDungeon {
     public enum CurrentScreen {
@@ -60,6 +64,17 @@ public class SurvivorDungeon {
     public static boolean isScreenUp;
 
     public static SpawnController spawnController;
+
+    {
+        try {
+            Class<?> lightsOutMod = Class.forName("LightsOut.LightsOutMod");
+            Method register = lightsOutMod.getMethod("registerLightManager", String.class, Collection.class);
+            register.invoke(null, SpireSurvivorsMod.makeID("DungeonEffects"), effects);
+            register.invoke(null, SpireSurvivorsMod.makeID("DungeonMonster"), monsters);
+            register.invoke(null, SpireSurvivorsMod.makeID("DungeonPickups"), pickups);
+            SpireSurvivorsMod.logger.info("Lights Out detected, dungeon supports lighting");
+        } catch (ClassNotFoundException | NoSuchMethodException | InvocationTargetException | IllegalAccessException ignored) {}
+    }
 
     public SurvivorDungeon(AbstractPlayer player) {
         SurvivorDungeon.player = SpireSurvivorsMod.registeredCharacters.getOrDefault(player.chosenClass, BasicCharacter::new).apply(player);
@@ -120,6 +135,12 @@ public class SurvivorDungeon {
             i.update();
         }
         pickups.removeIf(i -> i.isDone);
+
+        if (player.basePlayer.isDead) {
+            CardCrawlGame.startOver();
+            CardCrawlGamePatches.survivorGame.clear();
+            CardCrawlGamePatches.survivorGame = null;
+        }
     }
 
     public void updateInput() {

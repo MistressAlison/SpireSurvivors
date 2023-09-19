@@ -108,8 +108,7 @@ public abstract class AbstractSurvivorPlayer extends AbstractSurvivorEntity {
             }
             CardCrawlGame.music.playTempBgmInstantly(bgmKey, false);*/
             basePlayer.playDeathAnimation();
-            CardCrawlGame.startOver();
-            CardCrawlGamePatches.survivorGame = null;
+            basePlayer.isDead = true;
         }
     }
 
