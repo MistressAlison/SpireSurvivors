@@ -21,29 +21,57 @@ import java.lang.reflect.Field;
 
 public abstract class AbstractSurvivorPlayer extends AbstractSurvivorEntity {
     public AbstractPlayer basePlayer;
+    public float attackspeedModifier = 0.3f;
+    public float critChance = 0f;
+    public float critDamage = 2f;
+    public float rangeModifier = 1f;
+    public float projectileSpeed = 1f;
+    public float projectileDuration = 1f;
+    public int projectileBounce = 0;
+    public int extraProjectiles = 0;
+    public float summonDamage = 0f;
+    public float summonSpeed = 1f;
+    public float cooldownModifier = 1f;
+    public float regeneration = 0f;
+    public float lifesteal = 0f;
+    public int armor = 0;
+    public float dodge = 0f;
+    public float area = 1f;
+    public float luck = 1f;
+    public float experienceModifier = 1f;
+    public float levelModifier = 1f;
+    public float curse = 1f; //Makes enemies stronger and more numerous. Drawback to certain strong options
+    public float pickupRange = 100f;
+    public int revives = 0;
+    public int rerolls = 0;
+    public int skips = 0;
+    public int banishes = 0;
+    public int currentXP = 0;
+
 
     public AbstractSurvivorPlayer(AbstractPlayer p) {
         speed = 5f;
+        damageModifier = 1f;
         basePlayer = p;
-        basePlayer.drawX = Settings.WIDTH/2f;
-        basePlayer.drawY = Settings.HEIGHT/2f;
+        basePlayer.drawX = Settings.WIDTH / 2f;
+        basePlayer.drawY = Settings.HEIGHT / 2f;
         basePlayer.hb.width /= 4f;
         basePlayer.hb.height /= 6f;
-        basePlayer.hb.move(Settings.WIDTH/2f, Settings.HEIGHT/2f+basePlayer.hb.height/2f);
+        basePlayer.hb.move(Settings.WIDTH / 2f, Settings.HEIGHT / 2f + basePlayer.hb.height / 2f);
         hitbox = PolygonHelper.fromHitbox(basePlayer.hb);
         basePlayer.showHealthBar();
 
         if (basePlayer instanceof CustomPlayer) {
             AbstractAnimation animation = ReflectionHacks.getPrivate(basePlayer, CustomPlayer.class, "animation");
             if (animation instanceof SpriterAnimation) {
-                ((SpriterAnimation) animation).myPlayer.setScale(((SpriterAnimation) animation).myPlayer.getScale()*0.5f);
+                ((SpriterAnimation) animation).myPlayer.setScale(((SpriterAnimation) animation).myPlayer.getScale() * 0.5f);
                 if (!animation.getClass().equals(SpriterAnimation.class)) {
                     for (Field f : animation.getClass().getFields()) {
                         if (f.getType().equals(Player.class)) {
                             f.setAccessible(true);
                             try {
                                 Player spriterPlayer = (Player) f.get(animation);
-                                spriterPlayer.setScale(spriterPlayer.getScale()*0.5f);
+                                spriterPlayer.setScale(spriterPlayer.getScale() * 0.5f);
                             } catch (IllegalAccessException e) {
                                 throw new RuntimeException(e);
                             }

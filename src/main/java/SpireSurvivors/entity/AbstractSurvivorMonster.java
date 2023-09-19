@@ -18,6 +18,7 @@ import com.megacrit.cardcrawl.vfx.combat.StrikeEffect;
 public abstract class AbstractSurvivorMonster extends AbstractSurvivorEntity {
     public AbstractMonster monster;
     public MonsterCollisionWeapon collisionWeapon;
+    public int expAmount = 1;
 
     public AbstractSurvivorMonster(AbstractMonster m, int collisionDamage, float moveSpeed) {
         monster = m;
@@ -28,6 +29,7 @@ public abstract class AbstractSurvivorMonster extends AbstractSurvivorEntity {
         monster.showHealthBar();
         collisionWeapon = new MonsterCollisionWeapon(collisionDamage, 1f, 1);
         speed = moveSpeed;
+        damageModifier = 1f;
     }
 
     public void move(float dx, float dy) {

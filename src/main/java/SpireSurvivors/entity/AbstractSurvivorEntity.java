@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 public abstract class AbstractSurvivorEntity {
     public ArrayList<AbstractSurvivorWeapon> weapons = new ArrayList<>();
+    public float damageModifier;
     public float speed;
     public Polygon hitbox;
     abstract void damage(AbstractSurvivorEntity source, AbstractSurvivorWeapon weapon);
