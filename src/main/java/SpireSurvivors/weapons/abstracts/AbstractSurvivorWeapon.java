@@ -23,7 +23,7 @@ public abstract class AbstractSurvivorWeapon {
     public void update() {
         timer -= Gdx.graphics.getDeltaTime();
         if (timer <= 0f) {
-            timer = attackDelay*SurvivorDungeon.player.attackspeedModifier;
+            timer = attackDelay/SurvivorDungeon.player.attackspeedModifier;
             Vector2 dir = new Vector2(InputHelper.mX - CX, InputHelper.mY - CY);
             attack(dir);
         }

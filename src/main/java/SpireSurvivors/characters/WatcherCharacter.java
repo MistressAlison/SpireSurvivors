@@ -7,7 +7,7 @@ import com.megacrit.cardcrawl.characters.AbstractPlayer;
 public class WatcherCharacter extends AbstractSurvivorPlayer {
     public WatcherCharacter(AbstractPlayer p) {
         super(p);
-        attackspeedModifier *= 0.8f;
+        attackspeedModifier *= 1.2f;
         weapons.add(new LightParticleThrowWeapon());
     }
 }
