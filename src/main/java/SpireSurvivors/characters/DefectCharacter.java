@@ -7,7 +7,7 @@ import com.megacrit.cardcrawl.characters.AbstractPlayer;
 public class DefectCharacter extends AbstractSurvivorPlayer {
     public DefectCharacter(AbstractPlayer p) {
         super(p);
-        this.pickupRange *= 2f;
+        this.pickupRangeMultiplier *= 2f;
         weapons.add(new LightningSparkWeapon());
     }
 }

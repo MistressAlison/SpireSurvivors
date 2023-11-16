@@ -19,6 +19,7 @@ import com.megacrit.cardcrawl.vfx.combat.StrikeEffect;
 import java.lang.reflect.Field;
 
 public abstract class AbstractSurvivorPlayer extends AbstractSurvivorEntity {
+    public static final float PICKUP_RANGE = 100f * Settings.scale;
     public AbstractPlayer basePlayer;
     public float speedMultiplier = 1f;
     public float attackspeedModifier = 1f;
@@ -41,7 +42,7 @@ public abstract class AbstractSurvivorPlayer extends AbstractSurvivorEntity {
     public float experienceModifier = 1f;
     public float levelModifier = 1f;
     public float curse = 1f; //Makes enemies stronger and more numerous. Drawback to certain strong options
-    public float pickupRange = 100f;
+    public float pickupRangeMultiplier = 1f;
     public int revives = 0;
     public int rerolls = 0;
     public int skips = 0;
