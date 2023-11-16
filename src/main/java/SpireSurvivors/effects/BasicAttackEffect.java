@@ -42,6 +42,6 @@ public class BasicAttackEffect extends FlashAtkImgEffect {
     @Override
     public void render(SpriteBatch sb) {
         super.render(sb);
-        PolygonHelper.renderPolygon(hitbox, sb);
+        //PolygonHelper.renderPolygon(hitbox, sb);
     }
 }
