@@ -52,7 +52,7 @@ public abstract class AbstractSurvivorMonster extends AbstractSurvivorEntity {
                     crits++;
                     chance--;
                 }
-                if (AbstractDungeon.cardRandomRng.random() > chance) {
+                if (AbstractDungeon.cardRandomRng.random() < chance) {
                     crits++;
                 }
                 damage *= 1 + crits * (((AbstractSurvivorPlayer) source).critDamage-1);
