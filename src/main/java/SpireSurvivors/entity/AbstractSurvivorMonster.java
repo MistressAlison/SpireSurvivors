@@ -60,6 +60,7 @@ public abstract class AbstractSurvivorMonster extends AbstractSurvivorEntity {
             monster.healthBarUpdatedEvent();
             //SurvivorDungeon.effectsQueue.add(new StrikeEffect(monster, monster.hb.cX, monster.hb.cY, (int)damage));
             if (monster.currentHealth <= 0) {
+                monster.currentHealth = 0;
                 monster.useFastShakeAnimation(1.0f);
                 monster.isDead = true;
             }
