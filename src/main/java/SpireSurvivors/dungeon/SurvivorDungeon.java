@@ -7,6 +7,7 @@ import SpireSurvivors.entity.AbstractSurvivorPlayer;
 import SpireSurvivors.patches.CardCrawlGamePatches;
 import SpireSurvivors.pickups.AbstractSurvivorInteractable;
 import SpireSurvivors.pickups.XPPickup;
+import SpireSurvivors.screens.survivorGame.SurvivorChoiceScreen;
 import SpireSurvivors.screens.survivorGame.SurvivorPauseScreen;
 import SpireSurvivors.ui.SurvivorUI;
 import SpireSurvivors.util.SpawnController;
@@ -26,6 +27,7 @@ import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.dungeons.Exordium;
 import com.megacrit.cardcrawl.helpers.input.InputAction;
 import com.megacrit.cardcrawl.random.Random;
+import com.megacrit.cardcrawl.ui.buttons.DynamicBanner;
 import com.megacrit.cardcrawl.vfx.AbstractGameEffect;
 
 import java.lang.reflect.InvocationTargetException;
@@ -85,7 +87,9 @@ public class SurvivorDungeon {
         currentScreen = CurrentScreen.NONE;
         isScreenUp = false;
         ui = new SurvivorUI();
+        dynamicBanner = new DynamicBanner();
         survivorPauseScreen = new SurvivorPauseScreen();
+        survivorChoiceScreen = new SurvivorChoiceScreen();
         spawnController = new SpawnController();
         CardCrawlGame.fadeIn(0.5f);
         camera = new OrthographicCamera();
@@ -95,11 +99,16 @@ public class SurvivorDungeon {
     }
 
     public void update() {
+        if (player.rewards > 0) {
+            survivorChoiceScreen.open(false);
+            player.rewards--;
+        }
         switch (currentScreen) {
             case PAUSE:
                 survivorPauseScreen.update();
                 break;
             case CHOICE:
+                survivorChoiceScreen.update();
                 break;
             case DEATH:
                 break;
@@ -108,6 +117,7 @@ public class SurvivorDungeon {
                 break;
         }
         ui.update();
+        dynamicBanner.update();
     }
 
     public void updateGameLogic() {
@@ -213,12 +223,14 @@ public class SurvivorDungeon {
                 survivorPauseScreen.render(sb);
                 break;
             case CHOICE:
+                survivorChoiceScreen.render(sb);
                 break;
             case DEATH:
                 break;
             case NONE:
                 break;
         }
+        dynamicBanner.render(sb);
     }
 
     public void clear() {

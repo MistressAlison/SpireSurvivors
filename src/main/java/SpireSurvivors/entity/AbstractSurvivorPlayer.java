@@ -48,7 +48,7 @@ public abstract class AbstractSurvivorPlayer extends AbstractSurvivorEntity {
     public int banishes = 0;
     public int currentXP = 0;
     public int currentLevel = 1;
-
+    public int rewards = 0;
 
     public AbstractSurvivorPlayer(AbstractPlayer p) {
         speed = 5f;
@@ -125,5 +125,18 @@ public abstract class AbstractSurvivorPlayer extends AbstractSurvivorEntity {
         basePlayer.renderPlayerImage(sb);
         basePlayer.renderHealth(sb);
         basePlayer.hb.render(sb);
+    }
+
+    public void gainXP(int amount) {
+        currentXP += amount;
+        while (currentXP >= xpToNextLevel()) {
+            currentXP -= xpToNextLevel();
+            currentLevel++;
+            rewards++;
+        }
+    }
+
+    public int xpToNextLevel() {
+        return (int) (2 * currentLevel + 5 * Math.pow(currentLevel-1, 2));
     }
 }
