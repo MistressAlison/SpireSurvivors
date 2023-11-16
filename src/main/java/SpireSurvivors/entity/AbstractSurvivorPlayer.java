@@ -1,7 +1,6 @@
 package SpireSurvivors.entity;
 
 import SpireSurvivors.dungeon.SurvivorDungeon;
-import SpireSurvivors.patches.CardCrawlGamePatches;
 import SpireSurvivors.util.PolygonHelper;
 import SpireSurvivors.weapons.abstracts.AbstractSurvivorWeapon;
 import basemod.ReflectionHacks;
@@ -21,6 +20,7 @@ import java.lang.reflect.Field;
 
 public abstract class AbstractSurvivorPlayer extends AbstractSurvivorEntity {
     public AbstractPlayer basePlayer;
+    public float speedMultiplier = 1f;
     public float attackspeedModifier = 1f;
     public float critChance = 0f;
     public float critDamage = 2f;

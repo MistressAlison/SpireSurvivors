@@ -61,7 +61,9 @@ public class SurvivorDungeon {
     public static OrthographicCamera camera;
     public static OrthogonalTiledMapRenderer mapRenderer;
 
+    public static DynamicBanner dynamicBanner;
     public static SurvivorPauseScreen survivorPauseScreen;
+    public static SurvivorChoiceScreen survivorChoiceScreen;
     public static CurrentScreen currentScreen;
     public static boolean isScreenUp;
 
@@ -172,7 +174,7 @@ public class SurvivorDungeon {
         }
         if (dir.len() != 0) {
             dir.nor();
-            dir.scl(player.speed);
+            dir.scl(player.speed * player.speedMultiplier);
             //worldX -= dir.x;
             //worldY -= dir.y;
             transformWorld(dir);
