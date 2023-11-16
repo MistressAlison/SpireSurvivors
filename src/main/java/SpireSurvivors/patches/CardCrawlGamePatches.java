@@ -24,7 +24,7 @@ public class CardCrawlGamePatches {
 
     @SpirePatch2(clz = CardCrawlGame.class, method = "update")
     public static class LoadSurvivorMode {
-        @SpirePostfixPatch
+        @SpireInsertPatch(locator = Locator.class)
         public static void plz(CardCrawlGame __instance) {
             if (CardCrawlGame.mode == CardCrawlGame.GameMode.GAMEPLAY && loadSurvivorMode) {
                 CardCrawlGame.mode = Enums.SURVIVOR_GAMEPLAY;
@@ -38,6 +38,14 @@ public class CardCrawlGamePatches {
                 if (survivorGame != null) {
                     survivorGame.update();
                 }
+            }
+        }
+
+        public static class Locator extends SpireInsertLocator {
+            @Override
+            public int[] Locate(CtBehavior ctBehavior) throws Exception {
+                Matcher m = new Matcher.MethodCallMatcher(CardCrawlGame.class, "updateDebugSwitch");
+                return LineFinder.findInOrder(ctBehavior, m);
             }
         }
     }
