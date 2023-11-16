@@ -1,0 +1,28 @@
+{
+  "SpireSurvivors:ExampleCard": {
+    "NAME": "Name",
+    "DESCRIPTION": "Main description",
+    "UPGRADE_DESCRIPTION": "Upgrade description",
+    "EXTENDED_DESCRIPTION": ["Extra Stuff"]
+  },
+  "SpireSurvivors:AttackSpeed": {
+    "NAME": "Attack Speed",
+    "DESCRIPTION": "Increase your attack speed by 10%."
+  },
+  "SpireSurvivors:CritChance": {
+    "NAME": "Critical Chance",
+    "DESCRIPTION": "Increase your critical hit chance by 10%."
+  },
+  "SpireSurvivors:CritDamage": {
+    "NAME": "Critical Damage",
+    "DESCRIPTION": "Increase your critical hit damage by 25%."
+  },
+  "SpireSurvivors:MovementSpeed": {
+    "NAME": "Movement Speed",
+    "DESCRIPTION": "Increase your movement speed by 25%."
+  },
+  "SpireSurvivors:PickupRange": {
+    "NAME": "Pickup Range",
+    "DESCRIPTION": "Increase your pickup range by 25%."
+  }
+}
