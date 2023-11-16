@@ -47,6 +47,7 @@ public abstract class AbstractSurvivorPlayer extends AbstractSurvivorEntity {
     public int skips = 0;
     public int banishes = 0;
     public int currentXP = 0;
+    public int currentLevel = 1;
 
 
     public AbstractSurvivorPlayer(AbstractPlayer p) {
