@@ -7,7 +7,7 @@ import SpireSurvivors.entity.AbstractSurvivorPlayer;
 import SpireSurvivors.patches.CardCrawlGamePatches;
 import SpireSurvivors.pickups.AbstractSurvivorInteractable;
 import SpireSurvivors.pickups.XPPickup;
-import SpireSurvivors.ui.SurvivorPauseScreen;
+import SpireSurvivors.screens.survivorGame.SurvivorPauseScreen;
 import SpireSurvivors.ui.SurvivorUI;
 import SpireSurvivors.util.SpawnController;
 import com.badlogic.gdx.Gdx;
@@ -144,8 +144,8 @@ public class SurvivorDungeon {
     }
 
     public void updateInput() {
-        if (PAUSE.isPressed()) {
-            survivorPauseScreen.open(false);
+        if (PAUSE.isJustPressed()) {
+            survivorPauseScreen.open(true);
         }
         Vector2 dir = new Vector2();
         if (UP.isPressed()) {
