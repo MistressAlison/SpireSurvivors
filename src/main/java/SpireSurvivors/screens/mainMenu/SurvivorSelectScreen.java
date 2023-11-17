@@ -182,13 +182,12 @@ public class SurvivorSelectScreen {
             InputHelper.pressedEscape = false;
             this.cancelButton.hb.clicked = false;
             this.cancelButton.hide();
+            CardCrawlGame.mainMenuScreen.panelScreen.refresh();
             for (CharacterLoadout o : this.options) {
                 o.selected = false;
             }
             this.bgCharColor.a = 0.0F;
             this.anySelected = false;
-            CardCrawlGame.mainMenuScreen.screen = MainMenuScreen.CurScreen.MAIN_MENU;
-            CardCrawlGame.mainMenuScreen.lighten();
         }
 
         if (this.confirmButton.hb.clicked) {// 297
