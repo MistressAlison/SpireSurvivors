@@ -1,5 +1,6 @@
 package SpireSurvivors.ui;
 
+import SpireSurvivors.SpireSurvivorsMod;
 import SpireSurvivors.dungeon.SurvivorDungeon;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
@@ -29,6 +30,9 @@ public class MovementTutorial {
 
         if (alpha != targetAlpha) {
             alpha = MathUtils.lerp(alpha, targetAlpha, Math.min((lerpTime += Gdx.graphics.getDeltaTime()) / LERP_LENGTH, 1f));
+            if (alpha <= 0.01f) {
+                SpireSurvivorsMod.seenMovementTutorial = true;
+            }
         }
 
         if (up.pressed && down.pressed && right.pressed && left.pressed) {

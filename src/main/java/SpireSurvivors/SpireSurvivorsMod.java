@@ -76,6 +76,9 @@ public class SpireSurvivorsMod implements EditStringsSubscriber, PostInitializeS
     public static final ArrayList<AbstractGameEffect> managedEffects = new ArrayList<>();
     public static final HashMap<AbstractPlayer.PlayerClass, Function<AbstractPlayer, AbstractSurvivorPlayer>> registeredCharacters = new HashMap<>();
 
+    // This doesn't work in SurvivorDungeon so I guess it's here now
+    public static boolean seenMovementTutorial = false;
+
     public SpireSurvivorsMod() {
         logger.info("Subscribe to BaseMod hooks");
         BaseMod.subscribe(this);

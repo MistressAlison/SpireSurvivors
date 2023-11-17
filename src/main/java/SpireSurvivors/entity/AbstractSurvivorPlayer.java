@@ -1,5 +1,6 @@
 package SpireSurvivors.entity;
 
+import SpireSurvivors.SpireSurvivorsMod;
 import SpireSurvivors.dungeon.SurvivorDungeon;
 import SpireSurvivors.ui.MovementTutorial;
 import SpireSurvivors.util.PolygonHelper;
@@ -129,7 +130,11 @@ public abstract class AbstractSurvivorPlayer extends AbstractSurvivorEntity {
     public void render(SpriteBatch sb) {
         basePlayer.renderPlayerImage(sb);
         basePlayer.renderHealth(sb);
-        movementTutorial.render(sb, basePlayer.hb.cX, basePlayer.hb.y - MOVEMENT_TUTORIAL_OFFSET);
+
+        if (!SpireSurvivorsMod.seenMovementTutorial) {
+            movementTutorial.render(sb, basePlayer.hb.cX, basePlayer.hb.y - MOVEMENT_TUTORIAL_OFFSET);
+        }
+
         basePlayer.hb.render(sb);
     }
 
