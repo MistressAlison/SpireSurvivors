@@ -34,57 +34,41 @@ import java.util.function.Function;
 @SpireInitializer
 public class SpireSurvivorsMod implements EditStringsSubscriber, PostInitializeSubscriber, PostRenderSubscriber, PostUpdateSubscriber {
     public static final Logger logger = LogManager.getLogger(SpireSurvivorsMod.class.getName());
-
     private static String modID;
-
     public static SpireConfig LOConfig;
-
     public static String FILE_NAME = "SpireSurvivorsConfig";
 
     public static final String ENABLE_MOD = "enableMod";
-
     public static boolean modEnabled = true;
 
     public static final String TORCH_MODE = "torchMode";
-
     public static boolean torchMode = false;
 
     public static final String MOUSE_RADIUS = "mouseRadium";
-
     public static int mouseRadius = 360;
 
     public static final String TORCH_MODE_DECAY = "torchModeDecay";
-
     public static int torchModeDecay = 5;
 
     public static final String AMBIENT_LIGHT = "ambientLight";
-
     public static int ambientLight = 0;
 
     public static final String COLORFUL_MAP = "colorfulMap";
-
     public static boolean colorfulMap = false;
 
     public static final String GLOWING_MAP = "glowingMap";
-
     public static boolean glowingMap = true;
 
     public static UIStrings uiStrings;
-
     public static String[] TEXT;
-
     public static String[] EXTRA_TEXT;
 
     private static final String MODNAME = "Spire Survivors";
-
     private static final String AUTHOR = "Mistress Autumn";
-
     private static final String DESCRIPTION = "This is a bad idea.";
-
     public static final String BADGE_IMAGE = "SpireSurvivorsResources/images/Badge.png";
 
     public static final ArrayList<AbstractGameEffect> managedEffects = new ArrayList<>();
-
     public static final HashMap<AbstractPlayer.PlayerClass, Function<AbstractPlayer, AbstractSurvivorPlayer>> registeredCharacters = new HashMap<>();
 
     public SpireSurvivorsMod() {

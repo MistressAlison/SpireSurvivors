@@ -1,13 +1,14 @@
 package SpireSurvivors.entity;
 
 import SpireSurvivors.dungeon.SurvivorDungeon;
-import SpireSurvivors.patches.CardCrawlGamePatches;
+import SpireSurvivors.ui.MovementTutorial;
 import SpireSurvivors.util.PolygonHelper;
 import SpireSurvivors.weapons.abstracts.AbstractSurvivorWeapon;
 import basemod.ReflectionHacks;
 import basemod.abstracts.CustomPlayer;
 import basemod.animations.AbstractAnimation;
 import basemod.animations.SpriterAnimation;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.brashmonkey.spriter.Player;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
@@ -40,7 +41,7 @@ public abstract class AbstractSurvivorPlayer extends AbstractSurvivorEntity {
     public float luck = 1f;
     public float experienceModifier = 1f;
     public float levelModifier = 1f;
-    public float curse = 1f; //Makes enemies stronger and more numerous. Drawback to certain strong options
+    public float curse = 1f; // Makes enemies stronger and more numerous. Drawback to certain strong options
     public float pickupRange = 100f;
     public int revives = 0;
     public int rerolls = 0;
@@ -49,6 +50,8 @@ public abstract class AbstractSurvivorPlayer extends AbstractSurvivorEntity {
     public int currentXP = 0;
     public int currentLevel = 1;
 
+    public MovementTutorial movementTutorial = new MovementTutorial();;
+    public static final float MOVEMENT_TUTORIAL_OFFSET = 70f;
 
     public AbstractSurvivorPlayer(AbstractPlayer p) {
         speed = 5f;
@@ -124,6 +127,7 @@ public abstract class AbstractSurvivorPlayer extends AbstractSurvivorEntity {
     public void render(SpriteBatch sb) {
         basePlayer.renderPlayerImage(sb);
         basePlayer.renderHealth(sb);
+        movementTutorial.render(sb, basePlayer.hb.cX, basePlayer.hb.y - MOVEMENT_TUTORIAL_OFFSET);
         basePlayer.hb.render(sb);
     }
 }
