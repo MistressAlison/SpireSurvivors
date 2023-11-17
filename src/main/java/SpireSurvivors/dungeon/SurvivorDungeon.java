@@ -69,7 +69,7 @@ public class SurvivorDungeon {
 
     public static SpawnController spawnController;
 
-    {
+    static {
         try {
             Class<?> lightsOutMod = Class.forName("LightsOut.LightsOutMod");
             Method register = lightsOutMod.getMethod("registerLightManager", String.class, Collection.class);
