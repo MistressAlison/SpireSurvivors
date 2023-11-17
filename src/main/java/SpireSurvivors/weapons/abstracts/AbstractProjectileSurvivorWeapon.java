@@ -2,7 +2,6 @@ package SpireSurvivors.weapons.abstracts;
 
 import SpireSurvivors.dungeon.SurvivorDungeon;
 import SpireSurvivors.effects.BasicProjectileAttackEffect;
-import SpireSurvivors.weapons.abstracts.AbstractSurvivorWeapon;
 import com.badlogic.gdx.math.Vector2;
 import com.megacrit.cardcrawl.core.Settings;
 

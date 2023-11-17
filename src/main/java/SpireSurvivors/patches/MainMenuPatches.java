@@ -10,7 +10,11 @@ import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.helpers.ImageMaster;
 import com.megacrit.cardcrawl.localization.UIStrings;
-import com.megacrit.cardcrawl.screens.mainMenu.*;
+import com.megacrit.cardcrawl.screens.mainMenu.MainMenuPanelButton;
+import com.megacrit.cardcrawl.screens.mainMenu.MainMenuScreen;
+import com.megacrit.cardcrawl.screens.mainMenu.MenuButton;
+import com.megacrit.cardcrawl.screens.mainMenu.MenuPanelScreen;
+import com.megacrit.cardcrawl.screens.mainMenu.SaveSlotScreen;
 import javassist.CtBehavior;
 
 public class MainMenuPatches {
