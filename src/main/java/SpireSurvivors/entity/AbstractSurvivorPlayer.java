@@ -9,6 +9,7 @@ import basemod.ReflectionHacks;
 import basemod.abstracts.CustomPlayer;
 import basemod.animations.AbstractAnimation;
 import basemod.animations.SpriterAnimation;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.brashmonkey.spriter.Player;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
@@ -22,6 +23,8 @@ import java.lang.reflect.Field;
 
 public abstract class AbstractSurvivorPlayer extends AbstractSurvivorEntity {
     public static final float PICKUP_RANGE = 100f * Settings.scale;
+    public static final float INV_TIME = 0.5f;
+
     public AbstractPlayer basePlayer;
     public float speedMultiplier = 1f;
     public float attackspeedModifier = 1f;
@@ -52,6 +55,7 @@ public abstract class AbstractSurvivorPlayer extends AbstractSurvivorEntity {
     public int currentXP = 0;
     public int currentLevel = 1;
     public int rewards = 0;
+    public float invTime = 0;
 
     public MovementTutorial movementTutorial = new MovementTutorial();;
     public static final float MOVEMENT_TUTORIAL_OFFSET = 70f;
@@ -91,9 +95,11 @@ public abstract class AbstractSurvivorPlayer extends AbstractSurvivorEntity {
 
     @Override
     public void damage(AbstractSurvivorEntity attacker, AbstractSurvivorWeapon weapon) {
+        if (invTime > 0) return;
         basePlayer.currentHealth -= weapon.damage;
         basePlayer.healthBarUpdatedEvent();
         SurvivorDungeon.effectsQueue.add(new StrikeEffect(basePlayer, basePlayer.hb.cX, basePlayer.hb.cY, weapon.damage));
+        invTime = INV_TIME;
 
         if (basePlayer.currentHealth <= 0) {
             CardCrawlGame.music.dispose();
@@ -122,6 +128,8 @@ public abstract class AbstractSurvivorPlayer extends AbstractSurvivorEntity {
     @Override
     public void update() {
         super.update();
+        if (invTime > 0) invTime -= Gdx.graphics.getDeltaTime();
+        if (invTime < 0) invTime = 0;
         this.basePlayer.flipHorizontal = InputHelper.mX < basePlayer.hb.cX;
         ReflectionHacks.privateMethod(AbstractCreature.class, "updateHealthBar").invoke(basePlayer);
     }
