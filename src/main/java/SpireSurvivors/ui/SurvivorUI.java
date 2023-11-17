@@ -26,7 +26,7 @@ public class SurvivorUI {
         y -= DELTA_Y;
         FontHelper.renderFontLeft(sb, FontHelper.tipBodyFont, TEXT[0] + SurvivorDungeon.player.basePlayer.currentHealth+"/"+SurvivorDungeon.player.basePlayer.maxHealth, DRAW_X, y, Color.GOLD);
         y -= DELTA_Y;
-        FontHelper.renderFontLeft(sb, FontHelper.tipBodyFont, TEXT[1] + SurvivorDungeon.player.currentXP, DRAW_X, y, Color.GOLD);
+        FontHelper.renderFontLeft(sb, FontHelper.tipBodyFont, TEXT[1] + SurvivorDungeon.player.currentXP+"/"+SurvivorDungeon.player.xpToNextLevel(), DRAW_X, y, Color.GOLD);
         y -= DELTA_Y;
         FontHelper.renderFontLeft(sb, FontHelper.tipBodyFont, TEXT[2] + SurvivorDungeon.player.currentLevel, DRAW_X, y, Color.GOLD);
         //y -= DELTA_Y;

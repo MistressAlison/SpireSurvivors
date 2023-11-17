@@ -20,7 +20,9 @@ import com.megacrit.cardcrawl.vfx.combat.StrikeEffect;
 import java.lang.reflect.Field;
 
 public abstract class AbstractSurvivorPlayer extends AbstractSurvivorEntity {
+    public static final float PICKUP_RANGE = 100f * Settings.scale;
     public AbstractPlayer basePlayer;
+    public float speedMultiplier = 1f;
     public float attackspeedModifier = 1f;
     public float critChance = 0f;
     public float critDamage = 2f;
@@ -41,13 +43,14 @@ public abstract class AbstractSurvivorPlayer extends AbstractSurvivorEntity {
     public float experienceModifier = 1f;
     public float levelModifier = 1f;
     public float curse = 1f; // Makes enemies stronger and more numerous. Drawback to certain strong options
-    public float pickupRange = 100f;
+    public float pickupRangeMultiplier = 1f;
     public int revives = 0;
     public int rerolls = 0;
     public int skips = 0;
     public int banishes = 0;
     public int currentXP = 0;
     public int currentLevel = 1;
+    public int rewards = 0;
 
     public MovementTutorial movementTutorial = new MovementTutorial();;
     public static final float MOVEMENT_TUTORIAL_OFFSET = 70f;
@@ -128,5 +131,18 @@ public abstract class AbstractSurvivorPlayer extends AbstractSurvivorEntity {
         basePlayer.renderHealth(sb);
         movementTutorial.render(sb, basePlayer.hb.cX, basePlayer.hb.y - MOVEMENT_TUTORIAL_OFFSET);
         basePlayer.hb.render(sb);
+    }
+
+    public void gainXP(int amount) {
+        currentXP += amount;
+        while (currentXP >= xpToNextLevel()) {
+            currentXP -= xpToNextLevel();
+            currentLevel++;
+            rewards++;
+        }
+    }
+
+    public int xpToNextLevel() {
+        return (int) (2 * currentLevel + 5 * Math.pow(currentLevel-1, 2));
     }
 }

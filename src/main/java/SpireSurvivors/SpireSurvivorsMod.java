@@ -24,6 +24,7 @@ import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.helpers.FontHelper;
+import com.megacrit.cardcrawl.localization.CardStrings;
 import com.megacrit.cardcrawl.localization.UIStrings;
 import com.megacrit.cardcrawl.vfx.AbstractGameEffect;
 import org.apache.logging.log4j.LogManager;
@@ -248,8 +249,8 @@ public class SpireSurvivorsMod implements EditStringsSubscriber, PostInitializeS
 
     public void receiveEditStrings() {
         logger.info("Beginning to edit strings for mod with ID: " + getModID());
-        BaseMod.loadCustomStringsFile(UIStrings.class,
-                getModID() + "Resources/localization/" + loadLocalizationIfAvailable("UI-Strings.json"));
+        BaseMod.loadCustomStringsFile(CardStrings.class, getModID() + "Resources/localization/" + loadLocalizationIfAvailable("CardStrings.json"));
+        BaseMod.loadCustomStringsFile(UIStrings.class, getModID() + "Resources/localization/" + loadLocalizationIfAvailable("UIStrings.json"));
         logger.info("Done editing strings");
     }
 

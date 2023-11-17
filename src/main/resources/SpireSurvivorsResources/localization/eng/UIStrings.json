@@ -44,5 +44,10 @@
       "XP: ",
       "LVL: "
     ]
+  },
+  "SpireSurvivors:SurvivorChoiceScreen": {
+    "TEXT": [
+      "Choose an Upgrade"
+    ]
   }
 }

@@ -13,6 +13,7 @@ import com.megacrit.cardcrawl.cards.DamageInfo;
 import com.megacrit.cardcrawl.core.AbstractCreature;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.core.Settings;
+import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import com.megacrit.cardcrawl.powers.AbstractPower;
 
@@ -44,6 +45,19 @@ public abstract class AbstractSurvivorMonster extends AbstractSurvivorEntity {
     public void damage(AbstractSurvivorEntity source, AbstractSurvivorWeapon weapon) {
         if (!monster.isDead) {
             float damage = weapon.damage*source.damageModifier;
+            if (source instanceof AbstractSurvivorPlayer) {
+                int crits = 0;
+                float chance = ((AbstractSurvivorPlayer) source).critChance;
+                while (chance >= 1) {
+                    crits++;
+                    chance--;
+                }
+                if (AbstractDungeon.cardRandomRng.random() > chance) {
+                    crits++;
+                }
+                damage *= 1 + crits * (((AbstractSurvivorPlayer) source).critDamage-1);
+            }
+
             for (AbstractPower p : SurvivorDungeon.player.basePlayer.powers) {
                 damage = p.atDamageGive(damage, DamageInfo.DamageType.NORMAL);
             }

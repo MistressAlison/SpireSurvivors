@@ -13,6 +13,6 @@ public class XPPickup extends AbstractSurvivorInteractable {
     @Override
     public void onTouch() {
         this.isDone = true;
-        SurvivorDungeon.player.currentXP += amount;
+        SurvivorDungeon.player.gainXP(amount);
     }
 }
