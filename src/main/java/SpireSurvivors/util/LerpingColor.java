@@ -1,4 +1,4 @@
-package SpireSurvivors.util.lerp;
+package SpireSurvivors.util;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
