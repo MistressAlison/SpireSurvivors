@@ -97,7 +97,7 @@ public class SurvivorDungeon {
         camera = new OrthographicCamera();
         camera.setToOrtho(false);
         map = new TmxMapLoader().load(SpireSurvivorsMod.getModID()+"Resources/tiled/TestMap.tmx");
-        mapRenderer = new OrthogonalTiledMapRenderer(map, 16f);
+        mapRenderer = new OrthogonalTiledMapRenderer(map, 16f * Settings.scale);
     }
 
     public void update() {
@@ -209,7 +209,7 @@ public class SurvivorDungeon {
         mapRenderer.setView(camera);
         mapRenderer.render();
         sb.begin();
-        for (AbstractSurvivorInteractable i : pickups ) {
+        for (AbstractSurvivorInteractable i : pickups) {
             i.render(sb);
         }
         for (AbstractSurvivorMonster m : monsters) {
