@@ -6,9 +6,10 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
+import com.megacrit.cardcrawl.core.Settings;
 
 public class MovementTutorial {
-    public static final float MOVEMENT_KEY_MARGIN = 2f;
+    public static final float MOVEMENT_KEY_MARGIN = 2f * Settings.scale;
 
     public MovementTutorialKey up = new MovementTutorialKey(SurvivorDungeon.UP.getKey());
     public MovementTutorialKey down = new MovementTutorialKey(SurvivorDungeon.DOWN.getKey());

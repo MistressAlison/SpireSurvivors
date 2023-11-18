@@ -64,7 +64,7 @@ public abstract class AbstractSurvivorPlayer extends AbstractSurvivorEntity {
     public float invTime = 0;
 
     public MovementTutorial movementTutorial = new MovementTutorial();;
-    public static final float MOVEMENT_TUTORIAL_OFFSET = 70f;
+    public static final float MOVEMENT_TUTORIAL_OFFSET = 80f * Settings.scale;
 
     public AbstractSurvivorPlayer(AbstractPlayer p) {
         speed = 5f;
