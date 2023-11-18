@@ -1,10 +1,7 @@
 package SpireSurvivors.weapons.abstracts;
 
-import SpireSurvivors.dungeon.SurvivorDungeon;
-import SpireSurvivors.effects.BasicProjectileAttackEffect;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
-import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.helpers.input.InputHelper;
 
 public abstract class AbstractBurstProjectileSurvivorWeapon extends AbstractSurvivorWeapon {

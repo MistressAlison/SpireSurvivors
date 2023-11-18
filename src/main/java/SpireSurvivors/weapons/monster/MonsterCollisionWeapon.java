@@ -14,7 +14,7 @@ public class MonsterCollisionWeapon extends AbstractSurvivorWeapon {
     }
 
     public void onHit() {
-        timer += attackDelay;
+        //timer += attackDelay;
     }
 
     @Override

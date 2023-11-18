@@ -1,10 +1,10 @@
 package SpireSurvivors.weapons.abstracts;
 
+import SpireSurvivors.dungeon.SurvivorDungeon;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.helpers.input.InputHelper;
-import SpireSurvivors.dungeon.SurvivorDungeon;
 
 public abstract class AbstractSurvivorWeapon {
     public static final float CX = Settings.WIDTH/2f;

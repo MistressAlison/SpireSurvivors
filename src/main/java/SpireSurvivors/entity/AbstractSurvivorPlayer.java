@@ -1,14 +1,17 @@
 package SpireSurvivors.entity;
 
+import SpireSurvivors.SpireSurvivorsMod;
 import SpireSurvivors.cards.abstracts.AbstractRelicCard;
 import SpireSurvivors.cards.abstracts.AbstractWeaponCard;
 import SpireSurvivors.dungeon.SurvivorDungeon;
+import SpireSurvivors.ui.MovementTutorial;
 import SpireSurvivors.util.PolygonHelper;
 import SpireSurvivors.weapons.abstracts.AbstractSurvivorWeapon;
 import basemod.ReflectionHacks;
 import basemod.abstracts.CustomPlayer;
 import basemod.animations.AbstractAnimation;
 import basemod.animations.SpriterAnimation;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.brashmonkey.spriter.Player;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
@@ -23,6 +26,8 @@ import java.util.ArrayList;
 
 public abstract class AbstractSurvivorPlayer extends AbstractSurvivorEntity {
     public static final float PICKUP_RANGE = 100f * Settings.scale;
+    public static final float INV_TIME = 0.5f;
+
     public AbstractPlayer basePlayer;
     public ArrayList<AbstractWeaponCard> weaponCards = new ArrayList<>();
     public ArrayList<AbstractRelicCard> relicCards = new ArrayList<>();
@@ -47,7 +52,7 @@ public abstract class AbstractSurvivorPlayer extends AbstractSurvivorEntity {
     public float luck = 1f;
     public float experienceModifier = 1f;
     public float levelModifier = 1f;
-    public float curse = 1f; //Makes enemies stronger and more numerous. Drawback to certain strong options
+    public float curse = 1f; // Makes enemies stronger and more numerous. Drawback to certain strong options
     public float pickupRangeMultiplier = 1f;
     public int revives = 0;
     public int rerolls = 0;
@@ -56,6 +61,10 @@ public abstract class AbstractSurvivorPlayer extends AbstractSurvivorEntity {
     public int currentXP = 0;
     public int currentLevel = 1;
     public int rewards = 0;
+    public float invTime = 0;
+
+    public MovementTutorial movementTutorial = new MovementTutorial();;
+    public static final float MOVEMENT_TUTORIAL_OFFSET = 70f;
 
     public AbstractSurvivorPlayer(AbstractPlayer p) {
         speed = 5f;
@@ -92,9 +101,11 @@ public abstract class AbstractSurvivorPlayer extends AbstractSurvivorEntity {
 
     @Override
     public void damage(AbstractSurvivorEntity attacker, AbstractSurvivorWeapon weapon) {
+        if (invTime > 0) return;
         basePlayer.currentHealth -= weapon.damage;
         basePlayer.healthBarUpdatedEvent();
         SurvivorDungeon.effectsQueue.add(new StrikeEffect(basePlayer, basePlayer.hb.cX, basePlayer.hb.cY, weapon.damage));
+        invTime = INV_TIME;
 
         if (basePlayer.currentHealth <= 0) {
             CardCrawlGame.music.dispose();
@@ -123,6 +134,8 @@ public abstract class AbstractSurvivorPlayer extends AbstractSurvivorEntity {
     @Override
     public void update() {
         super.update();
+        if (invTime > 0) invTime -= Gdx.graphics.getDeltaTime();
+        if (invTime < 0) invTime = 0;
         this.basePlayer.flipHorizontal = InputHelper.mX < basePlayer.hb.cX;
         ReflectionHacks.privateMethod(AbstractCreature.class, "updateHealthBar").invoke(basePlayer);
     }
@@ -131,6 +144,11 @@ public abstract class AbstractSurvivorPlayer extends AbstractSurvivorEntity {
     public void render(SpriteBatch sb) {
         basePlayer.renderPlayerImage(sb);
         basePlayer.renderHealth(sb);
+
+        if (!SpireSurvivorsMod.seenMovementTutorial) {
+            movementTutorial.render(sb, basePlayer.hb.cX, basePlayer.hb.y - MOVEMENT_TUTORIAL_OFFSET);
+        }
+
         basePlayer.hb.render(sb);
     }
 

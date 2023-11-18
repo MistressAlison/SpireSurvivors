@@ -69,7 +69,7 @@ public class SurvivorDungeon {
 
     public static SpawnController spawnController;
 
-    {
+    static {
         try {
             Class<?> lightsOutMod = Class.forName("LightsOut.LightsOutMod");
             Method register = lightsOutMod.getMethod("registerLightManager", String.class, Collection.class);
@@ -159,6 +159,14 @@ public class SurvivorDungeon {
         if (PAUSE.isJustPressed()) {
             survivorPauseScreen.open(true);
         }
+
+        if (player.movementTutorial.alpha != 0) {
+            player.movementTutorial.up.justPressed = UP.isJustPressed();
+            player.movementTutorial.down.justPressed = DOWN.isJustPressed();
+            player.movementTutorial.right.justPressed = RIGHT.isJustPressed();
+            player.movementTutorial.left.justPressed = LEFT.isJustPressed();
+        }
+
         Vector2 dir = new Vector2();
         if (UP.isPressed()) {
             dir.y += 1;
@@ -172,6 +180,7 @@ public class SurvivorDungeon {
         if (RIGHT.isPressed()) {
             dir.x += 1;
         }
+
         if (dir.len() != 0) {
             dir.nor();
             dir.scl(player.speed * player.speedMultiplier);
@@ -192,8 +201,6 @@ public class SurvivorDungeon {
         worldY += dir.y;
         camera.translate(dir);
     }
-
-
 
     public void render(SpriteBatch sb) {
         sb.draw(BACKGROUND, 0, 0, Settings.WIDTH, Settings.HEIGHT);
