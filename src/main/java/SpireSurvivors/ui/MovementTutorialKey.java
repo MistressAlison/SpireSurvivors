@@ -36,8 +36,7 @@ public class MovementTutorialKey {
         }
 
         sb.setColor(BG_COLOR.cpy().mul(1f, 1f, 1f, alpha_scale));
-        sb.draw(
-                new TextureRegion(BLANK_KEY),
+        sb.draw(new TextureRegion(BLANK_KEY),
                 x - BLANK_KEY.getWidth() / 2f, y - BLANK_KEY.getHeight() / 2f,
                 BLANK_KEY.getWidth() / 2f, BLANK_KEY.getHeight() /2f,
                 BLANK_KEY.getWidth(), BLANK_KEY.getHeight(),
