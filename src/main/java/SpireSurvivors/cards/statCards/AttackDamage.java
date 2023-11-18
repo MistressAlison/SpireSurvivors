@@ -13,7 +13,7 @@ public class AttackDamage extends AbstractStatCard {
     }
 
     @Override
-    public void onPickup(AbstractSurvivorPlayer p) {
+    public void onSelect(AbstractSurvivorPlayer p) {
         p.damageModifier += 0.1f;
     }
 }

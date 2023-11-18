@@ -5,11 +5,16 @@ import SpireSurvivors.effects.BasicProjectileAttackEffect;
 import SpireSurvivors.weapons.abstracts.AbstractBurstProjectileSurvivorWeapon;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
+import com.megacrit.cardcrawl.cards.blue.BallLightning;
 import com.megacrit.cardcrawl.helpers.ImageMaster;
 
+import static SpireSurvivors.SpireSurvivorsMod.makeID;
+
 public class LightningSparkWeapon extends AbstractBurstProjectileSurvivorWeapon {
+    public static final String ID = makeID(LightningSparkWeapon.class.getSimpleName());
+
     public LightningSparkWeapon() {
-        super(4, 1f, 3, 0.05f, 1f);
+        super(ID, new BallLightning(), 4, 1f, 3, 0.05f, 1f);
     }
 
     @Override

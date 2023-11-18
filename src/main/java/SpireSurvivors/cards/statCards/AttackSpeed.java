@@ -14,7 +14,7 @@ public class AttackSpeed extends AbstractStatCard {
     }
 
     @Override
-    public void onPickup(AbstractSurvivorPlayer p) {
+    public void onSelect(AbstractSurvivorPlayer p) {
         p.attackspeedModifier += 0.1f;
     }
 }

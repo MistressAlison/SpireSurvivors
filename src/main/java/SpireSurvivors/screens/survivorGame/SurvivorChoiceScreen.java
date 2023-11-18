@@ -58,7 +58,7 @@ public class SurvivorChoiceScreen {
         }*/
 
         if (hoveredCard != null && hoveredCard.hb.clicked) {
-            hoveredCard.onPickup(SurvivorDungeon.player);
+            hoveredCard.onSelect(SurvivorDungeon.player);
             SurvivorDungeon.currentScreen = SurvivorDungeon.CurrentScreen.NONE;
             SurvivorDungeon.isScreenUp = false;
             SurvivorDungeon.dynamicBanner.hide();

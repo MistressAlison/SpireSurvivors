@@ -3,11 +3,12 @@ package SpireSurvivors.weapons.abstracts;
 import SpireSurvivors.dungeon.SurvivorDungeon;
 import SpireSurvivors.effects.BasicProjectileAttackEffect;
 import com.badlogic.gdx.math.Vector2;
+import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.core.Settings;
 
 public abstract class AbstractProjectileSurvivorWeapon extends AbstractSurvivorWeapon {
-    public AbstractProjectileSurvivorWeapon(int damage, float attackDelay, float size) {
-        super(damage, attackDelay, size);
+    public AbstractProjectileSurvivorWeapon(String id, AbstractCard artCard, int damage, float attackDelay, float size) {
+        super(id, artCard, damage, attackDelay, size);
     }
 
     @Override

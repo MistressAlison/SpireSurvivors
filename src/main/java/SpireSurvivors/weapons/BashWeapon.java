@@ -5,11 +5,16 @@ import SpireSurvivors.effects.BasicAttackEffect;
 import SpireSurvivors.weapons.abstracts.AbstractSurvivorWeapon;
 import com.badlogic.gdx.math.Vector2;
 import com.megacrit.cardcrawl.actions.AbstractGameAction;
+import com.megacrit.cardcrawl.cards.red.Bash;
 import com.megacrit.cardcrawl.core.Settings;
 
+import static SpireSurvivors.SpireSurvivorsMod.makeID;
+
 public class BashWeapon extends AbstractSurvivorWeapon {
+    public static final String ID = makeID(BashWeapon.class.getSimpleName());
+
     public BashWeapon() {
-        super(8, 1.2f, 1);
+        super(ID, new Bash(), 8, 1.2f, 1);
     }
 
     @Override
