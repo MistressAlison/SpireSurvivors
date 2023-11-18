@@ -15,8 +15,8 @@ public class LerpingColor {
     }
 
     public void update() {
-        if (value.equals(target) || target == null) return;
         if (lerpLength == 0) value = target;
+        if (value.equals(target) || target == null) return;
         lerpTime += Gdx.graphics.getDeltaTime();
         value = value.lerp(target, Math.min(lerpTime / lerpLength, 1));
     }
