@@ -19,10 +19,11 @@ public class BasicAttackEffect extends FlashAtkImgEffect {
     public AbstractSurvivorWeapon weapon;
     public BasicAttackEffect(AbstractSurvivorWeapon weapon, float x, float y, AbstractGameAction.AttackEffect effect) {
         super(x, y, effect);
-        Hitbox hb = new Hitbox(img.packedWidth*Settings.scale, img.packedHeight*Settings.scale);
+        Hitbox hb = new Hitbox(img.packedWidth*Settings.scale*SurvivorDungeon.player.attackSizeModifier, img.packedHeight*Settings.scale*SurvivorDungeon.player.attackSizeModifier);
         hb.move(x, y);
         this.weapon = weapon;
         this.hitbox = PolygonHelper.fromHitbox(hb);
+        this.scale *= SurvivorDungeon.player.attackSizeModifier;
     }
 
     @Override

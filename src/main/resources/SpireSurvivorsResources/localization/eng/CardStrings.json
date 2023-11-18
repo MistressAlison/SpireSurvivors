@@ -5,6 +5,10 @@
     "UPGRADE_DESCRIPTION": "Upgrade description",
     "EXTENDED_DESCRIPTION": ["Extra Stuff"]
   },
+  "SpireSurvivors:MonsterCollisionWeapon": {
+    "NAME": "Monster Collision Weapon",
+    "DESCRIPTION": "If you see this text, something went wrong."
+  },
   "SpireSurvivors:AttackDamage": {
     "NAME": "Attack Damage",
     "DESCRIPTION": "Increase your attack damage by 10%."
