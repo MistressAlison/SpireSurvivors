@@ -6,6 +6,7 @@ import SpireSurvivors.weapons.abstracts.AbstractSurvivorWeapon;
 import SpireSurvivors.weapons.monster.MonsterCollisionWeapon;
 import basemod.ReflectionHacks;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.esotericsoftware.spine.Skeleton;
@@ -18,6 +19,9 @@ import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import com.megacrit.cardcrawl.powers.AbstractPower;
 
 public abstract class AbstractSurvivorMonster extends AbstractSurvivorEntity {
+    public static final Color DAMAGE_TAKEN_COLOR = Color.RED.cpy();
+    public static final Color DAMAGE_BLOCKED_COLOR = Color.CYAN.cpy();
+
     public AbstractMonster monster;
     public MonsterCollisionWeapon collisionWeapon;
     public int expAmount = 1;
@@ -28,7 +32,7 @@ public abstract class AbstractSurvivorMonster extends AbstractSurvivorEntity {
         monster.hb.width /= 4f;
         monster.hb_y -= monster.hb.height*3/2;
         hitbox = PolygonHelper.fromPosition(monster.hb.cX, monster.hb.cY - monster.hb.height*3/2, monster.hb.width, m.hb.height);
-        monster.showHealthBar();
+        //monster.showHealthBar();
         collisionWeapon = new MonsterCollisionWeapon(collisionDamage, 1f, 1);
         speed = moveSpeed;
         damageModifier = 1f;
@@ -70,8 +74,11 @@ public abstract class AbstractSurvivorMonster extends AbstractSurvivorEntity {
             for (AbstractPower p : monster.powers) {
                 damage = p.atDamageFinalReceive(damage, DamageInfo.DamageType.NORMAL);
             }
+
+            monster.tint.color.set(damage > 0 ? DAMAGE_TAKEN_COLOR : DAMAGE_BLOCKED_COLOR);
+
             monster.currentHealth -= damage;
-            monster.healthBarUpdatedEvent();
+            //monster.healthBarUpdatedEvent();
             //SurvivorDungeon.effectsQueue.add(new StrikeEffect(monster, monster.hb.cX, monster.hb.cY, (int)damage));
             if (monster.currentHealth <= 0) {
                 monster.currentHealth = 0;
@@ -119,7 +126,7 @@ public abstract class AbstractSurvivorMonster extends AbstractSurvivorEntity {
             sb.begin();
             sb.setBlendFunction(770, 771);
         }
-        monster.renderHealth(sb);
+        //monster.renderHealth(sb);
         monster.hb.render(sb);
     }
 }
