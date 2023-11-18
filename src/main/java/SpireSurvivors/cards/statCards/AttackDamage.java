@@ -6,14 +6,14 @@ import com.megacrit.cardcrawl.powers.AbstractPower;
 
 import static SpireSurvivors.SpireSurvivorsMod.makeID;
 
-public class MovementSpeed extends AbstractStatCard {
-    public final static String ID = makeID(MovementSpeed.class.getSimpleName());
-    public MovementSpeed() {
-        super(ID, AbstractPower.atlas.findRegion("128/flight"));
+public class AttackDamage extends AbstractStatCard {
+    public final static String ID = makeID(AttackDamage.class.getSimpleName());
+    public AttackDamage() {
+        super(ID, AbstractPower.atlas.findRegion("128/strength"));
     }
 
     @Override
     public void onPickup(AbstractSurvivorPlayer p) {
-        p.speedMultiplier += 0.25f;
+        p.damageModifier += 0.1f;
     }
 }

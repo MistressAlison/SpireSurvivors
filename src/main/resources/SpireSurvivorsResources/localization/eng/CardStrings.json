@@ -5,6 +5,10 @@
     "UPGRADE_DESCRIPTION": "Upgrade description",
     "EXTENDED_DESCRIPTION": ["Extra Stuff"]
   },
+  "SpireSurvivors:AttackDamage": {
+    "NAME": "Attack Damage",
+    "DESCRIPTION": "Increase your attack damage by 10%."
+  },
   "SpireSurvivors:AttackSpeed": {
     "NAME": "Attack Speed",
     "DESCRIPTION": "Increase your attack speed by 10%."

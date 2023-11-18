@@ -2,10 +2,7 @@ package SpireSurvivors.screens.survivorGame;
 
 import SpireSurvivors.SpireSurvivorsMod;
 import SpireSurvivors.cards.abstracts.AbstractSurvivorCard;
-import SpireSurvivors.cards.statCards.AttackSpeed;
-import SpireSurvivors.cards.statCards.CritChance;
-import SpireSurvivors.cards.statCards.MovementSpeed;
-import SpireSurvivors.cards.statCards.PickupRange;
+import SpireSurvivors.cards.statCards.*;
 import SpireSurvivors.dungeon.SurvivorDungeon;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
@@ -70,8 +67,8 @@ public class SurvivorChoiceScreen {
     
     public void open(boolean animated) {
         rewardCards.clear();
+        rewardCards.add(new AttackDamage());
         rewardCards.add(new AttackSpeed());
-        rewardCards.add(new CritChance());
         rewardCards.add(new MovementSpeed());
         rewardCards.add(new PickupRange());
         SurvivorDungeon.dynamicBanner.appear(TEXT[0]);

@@ -1,6 +1,8 @@
 package SpireSurvivors.entity;
 
 import SpireSurvivors.SpireSurvivorsMod;
+import SpireSurvivors.cards.abstracts.AbstractRelicCard;
+import SpireSurvivors.cards.abstracts.AbstractWeaponCard;
 import SpireSurvivors.dungeon.SurvivorDungeon;
 import SpireSurvivors.ui.MovementTutorial;
 import SpireSurvivors.util.PolygonHelper;
@@ -20,12 +22,16 @@ import com.megacrit.cardcrawl.helpers.input.InputHelper;
 import com.megacrit.cardcrawl.vfx.combat.StrikeEffect;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 
 public abstract class AbstractSurvivorPlayer extends AbstractSurvivorEntity {
     public static final float PICKUP_RANGE = 100f * Settings.scale;
     public static final float INV_TIME = 0.5f;
 
     public AbstractPlayer basePlayer;
+    public ArrayList<AbstractWeaponCard> weaponCards = new ArrayList<>();
+    public ArrayList<AbstractRelicCard> relicCards = new ArrayList<>();
+
     public float speedMultiplier = 1f;
     public float attackspeedModifier = 1f;
     public float critChance = 0f;

@@ -49,5 +49,10 @@
     "TEXT": [
       "Choose an Upgrade"
     ]
+  },
+  "SpireSurvivors:AbstractStatCard": {
+    "TEXT": [
+      "Stat Up"
+    ]
   }
 }
