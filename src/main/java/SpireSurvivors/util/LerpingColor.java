@@ -22,7 +22,7 @@ public class LerpingColor {
     }
 
     public void setTarget(Color target) {
-        lerpTime = 0f;
+        lerpTime = 0;
         this.target = target;
     }
 }
