@@ -2,13 +2,15 @@ package SpireSurvivors.weapons.abstracts;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
+import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.helpers.input.InputHelper;
 
 public abstract class AbstractBurstProjectileSurvivorWeapon extends AbstractSurvivorWeapon {
     float burstTimer, burstDelay;
     int burstAmount, burstsLeft;
-    public AbstractBurstProjectileSurvivorWeapon(int damage, float attackDelay, int burstAmount, float burstDelay, float size) {
-        super(damage, attackDelay, size);
+
+    public AbstractBurstProjectileSurvivorWeapon(String id, AbstractCard artCard, int damage, float attackDelay, int burstAmount, float burstDelay, float size) {
+        super(id, artCard, damage, attackDelay, size);
         this.burstDelay = burstDelay;
         this.burstAmount = burstAmount;
     }

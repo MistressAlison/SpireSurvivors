@@ -4,17 +4,21 @@ import SpireSurvivors.dungeon.SurvivorDungeon;
 import SpireSurvivors.effects.BasicProjectileAttackEffect;
 import SpireSurvivors.weapons.abstracts.AbstractProjectileSurvivorWeapon;
 import com.badlogic.gdx.math.Vector2;
+import com.megacrit.cardcrawl.cards.blue.Chaos;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.helpers.ImageMaster;
 
-public class HeavyOrbThrowWeapon extends AbstractProjectileSurvivorWeapon {
+import static SpireSurvivors.SpireSurvivorsMod.makeID;
 
-private float rotate;
+public class HeavyOrbThrowWeapon extends AbstractProjectileSurvivorWeapon {
+    public static final String ID = makeID(HeavyOrbThrowWeapon.class.getSimpleName());
+    private float rotate;
+
     public HeavyOrbThrowWeapon() {
-        super(16, 0.5F, 100);
+        super(ID, new Chaos(), 16, 0.5F, 100);
     }
     public HeavyOrbThrowWeapon(float rotate) {
-            super(16, 0.5F, 100);
+            super(ID, new Chaos(), 16, 0.5F, 100);
             this.rotate=rotate;
         }
 

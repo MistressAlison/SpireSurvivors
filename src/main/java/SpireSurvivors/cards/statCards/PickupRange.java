@@ -13,7 +13,7 @@ public class PickupRange extends AbstractStatCard {
     }
 
     @Override
-    public void onPickup(AbstractSurvivorPlayer p) {
+    public void onSelect(AbstractSurvivorPlayer p) {
         p.pickupRangeMultiplier += 0.25f;
     }
 }

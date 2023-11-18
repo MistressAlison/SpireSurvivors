@@ -16,7 +16,7 @@ public class CritDamage extends AbstractStatCard {
     }
 
     @Override
-    public void onPickup(AbstractSurvivorPlayer p) {
+    public void onSelect(AbstractSurvivorPlayer p) {
         p.critDamage += 0.25f;
     }
 }

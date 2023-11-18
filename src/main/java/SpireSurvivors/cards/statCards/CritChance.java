@@ -13,7 +13,7 @@ public class CritChance extends AbstractStatCard {
     }
 
     @Override
-    public void onPickup(AbstractSurvivorPlayer p) {
+    public void onSelect(AbstractSurvivorPlayer p) {
         p.critChance += 0.1f;
     }
 }

@@ -5,11 +5,16 @@ import SpireSurvivors.effects.BasicProjectileAttackEffect;
 import SpireSurvivors.weapons.abstracts.AbstractProjectileSurvivorWeapon;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
+import com.megacrit.cardcrawl.cards.blue.BeamCell;
 import com.megacrit.cardcrawl.helpers.ImageMaster;
 
+import static SpireSurvivors.SpireSurvivorsMod.makeID;
+
 public class LightParticleThrowWeapon extends AbstractProjectileSurvivorWeapon {
+    public static final String ID = makeID(LightParticleThrowWeapon.class.getSimpleName());
+
     public LightParticleThrowWeapon() {
-        super(1, 0.1f, 1);
+        super(ID, new BeamCell(), 1, 0.1f, 1);
     }
 
     @Override

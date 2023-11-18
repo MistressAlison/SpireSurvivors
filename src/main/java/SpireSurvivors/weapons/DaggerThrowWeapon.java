@@ -4,11 +4,17 @@ import SpireSurvivors.dungeon.SurvivorDungeon;
 import SpireSurvivors.effects.FlyingDaggerAttackEffect;
 import SpireSurvivors.weapons.abstracts.AbstractSurvivorWeapon;
 import com.badlogic.gdx.math.Vector2;
+import com.megacrit.cardcrawl.cards.green.DaggerThrow;
 import com.megacrit.cardcrawl.core.Settings;
 
+import static SpireSurvivors.SpireSurvivorsMod.makeID;
+
 public class DaggerThrowWeapon extends AbstractSurvivorWeapon {
+    public static final String ID = makeID(DaggerThrowWeapon.class.getSimpleName());
+
+
     public DaggerThrowWeapon() {
-        super(4, 0.5f, 1);
+        super(ID, new DaggerThrow(), 4, 0.5f, 1);
     }
 
     @Override

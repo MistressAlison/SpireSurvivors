@@ -13,7 +13,7 @@ public class MovementSpeed extends AbstractStatCard {
     }
 
     @Override
-    public void onPickup(AbstractSurvivorPlayer p) {
+    public void onSelect(AbstractSurvivorPlayer p) {
         p.speedMultiplier += 0.25f;
     }
 }

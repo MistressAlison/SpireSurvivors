@@ -39,5 +39,8 @@ public abstract class AbstractSurvivorCard extends CustomCard {
     @Override
     public void use(AbstractPlayer abstractPlayer, AbstractMonster abstractMonster) {}
 
-    public abstract void onPickup(AbstractSurvivorPlayer p);
+    @Override
+    public void upgrade() {}
+
+    public abstract void onSelect(AbstractSurvivorPlayer p);
 }
