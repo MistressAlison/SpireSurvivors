@@ -7,9 +7,7 @@ import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
-import com.evacipated.cardcrawl.modthespire.lib.ByRef;
-import com.evacipated.cardcrawl.modthespire.lib.SpirePatch2;
-import com.evacipated.cardcrawl.modthespire.lib.SpirePostfixPatch;
+import com.evacipated.cardcrawl.modthespire.lib.*;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.helpers.CardLibrary;
 import com.megacrit.cardcrawl.screens.SingleCardViewPopup;
@@ -20,26 +18,57 @@ import static com.badlogic.gdx.graphics.GL20.GL_DST_COLOR;
 import static com.badlogic.gdx.graphics.GL20.GL_ZERO;
 
 public class PortraitHelper {
+    private static class MaskData {
+        public String ID;
+        public AbstractCard.CardType type;
+        public TextureAtlas.AtlasRegion region;
+
+        public MaskData(String ID, AbstractCard.CardType type, TextureAtlas.AtlasRegion region) {
+            this.ID = ID;
+            this.type = type;
+            this.region = region;
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (!(obj instanceof MaskData)) {
+                return false;
+            } else {
+                MaskData other = (MaskData) obj;
+                return ID.equals(other.ID) && type.equals(other.type) && region.equals(other.region);
+            }
+        }
+    }
+
+    @SpirePatch(clz= AbstractCard.class, method=SpirePatch.CLASS)
+    public static class MaskDataField {
+        public static SpireField<MaskData> data = new SpireField<>(() -> null);
+    }
 
     private static final Texture attackMask = TextureLoader.getTexture("SpireSurvivorsResources/images/masks/AttackMask.png");
     private static final Texture skillMask = TextureLoader.getTexture("SpireSurvivorsResources/images/masks/SkillMask.png");
     private static final Texture powerMask = TextureLoader.getTexture("SpireSurvivorsResources/images/masks/PowerMask.png");
     private static final int WIDTH = 250;
     private static final int HEIGHT = 190;
-    private static final HashMap<Pair<String, AbstractCard.CardType>, Pair<TextureAtlas.AtlasRegion, Texture>> hashedTextures = new HashMap<>();
+    private static final HashMap<MaskData, Pair<TextureAtlas.AtlasRegion, Texture>> hashedTextures = new HashMap<>();
 
     public static void setMaskedPortrait(AbstractCard card) {
-        Pair<String, AbstractCard.CardType> key = new Pair<>(card.cardID, card.type);
+        setMaskedPortrait(card, null);
+    }
+
+    public static void setMaskedPortrait(AbstractCard card, TextureAtlas.AtlasRegion r) {
+        MaskData key = new MaskData(card.cardID, card.type, r);
+        MaskDataField.data.set(card, key);
         if (hashedTextures.containsKey(key)) {
             card.portrait = hashedTextures.get(key).getKey();
         } else {
-            Texture temp = makeMaskedTexture(card, 2);
-            card.portrait = new TextureAtlas.AtlasRegion(makeMaskedTexture(card, 1), 0, 0, WIDTH, HEIGHT);
+            Texture temp = makeMaskedTexture(card, r, 2);
+            card.portrait = new TextureAtlas.AtlasRegion(makeMaskedTexture(card, r, 1), 0, 0, WIDTH, HEIGHT);
             hashedTextures.put(key, new Pair<>(card.portrait, temp));
         }
     }
 
-    public static Texture makeMaskedTexture(AbstractCard card, int multi) {
+    public static Texture makeMaskedTexture(AbstractCard card, TextureAtlas.AtlasRegion r, int multi) {
         int width = WIDTH * multi;
         int height = HEIGHT * multi;
 
@@ -49,10 +78,13 @@ public class PortraitHelper {
         SpriteBatch sb = new SpriteBatch();
         OrthographicCamera og = new OrthographicCamera(width, height);
         t.flip(false, true);
+        if (r != null) {
+            r.flip(false, true);
+        }
         if (baseCard.type == AbstractCard.CardType.ATTACK) {
             if (card.type == AbstractCard.CardType.POWER) {
                 //Attack to Power
-                og.zoom = 0.976f;
+                og.zoom = 0.95f;
                 og.translate(-3, 0);
             } else {
                 //Attack to Skill, Status, Curse
@@ -72,7 +104,7 @@ public class PortraitHelper {
         } else {
             if (card.type == AbstractCard.CardType.POWER) {
                 //Skill, Status, Curse to Power
-                og.zoom = 0.976f;
+                og.zoom = 0.95f;
                 og.translate(-3, 0);
             }
             //Skill, Status, Curse to Attack is free
@@ -89,7 +121,10 @@ public class PortraitHelper {
 
         sb.setColor(Color.WHITE.cpy());
         sb.draw(t, -width/2f, -height/2f, -width/2f, -height/2f, width, height, 1, 1, 0);
-        sb.draw(t, -t.packedWidth/2f*multi, -t.packedHeight/2f*multi, -t.packedWidth/2f*multi, -t.packedHeight/2f*multi, t.packedWidth*multi, t.packedHeight*multi, 1, 1, 0);
+        //sb.draw(t, -t.packedWidth/2f*multi, -t.packedHeight/2f*multi, -t.packedWidth/2f*multi, -t.packedHeight/2f*multi, t.packedWidth*multi, t.packedHeight*multi, 1, 1, 0);
+        if (r != null) {
+            sb.draw(r, -r.packedWidth/2f*multi, -r.packedHeight/2f*multi);
+        }
         sb.setBlendFunction(GL_DST_COLOR, GL_ZERO);
         sb.setProjectionMatrix(new OrthographicCamera(width, height).combined);
 
@@ -104,6 +139,9 @@ public class PortraitHelper {
         sb.end();
         fb.end();
         t.flip(false, true);
+        if (r != null) {
+            r.flip(false, true);
+        }
         return fb.getColorBufferTexture();
     }
 
@@ -111,20 +149,20 @@ public class PortraitHelper {
     public static class FixSCVHopefully {
         @SpirePostfixPatch
         public static void dontExplode(SingleCardViewPopup __instance, @ByRef Texture[] ___portraitImg, AbstractCard ___card) {
-            Pair<String, AbstractCard.CardType> key = new Pair<>(___card.cardID, ___card.type);
-            if (hashedTextures.containsKey(key)) {
-                ___portraitImg[0] = TextureScaler.rescale(hashedTextures.get(key).getKey(), 2f);
+            MaskData data = MaskDataField.data.get(___card);
+            if (data != null) {
+                ___portraitImg[0] = TextureScaler.rescale(hashedTextures.get(data).getKey(), 2f);
             }
         }
     }
 
-    @SpirePatch2(clz = CustomCard.class, method = "getPortraitImage",paramtypez = {})
+    @SpirePatch2(clz = CustomCard.class, method = "getPortraitImage", paramtypez = {})
     public static class FixCustomCardHopefully {
         @SpirePostfixPatch
         public static void plz(CustomCard __instance, @ByRef Texture[] __result) {
-            Pair<String, AbstractCard.CardType> key = new Pair<>(__instance.cardID, __instance.type);
-            if (hashedTextures.containsKey(key)) {
-                __result[0] = makeMaskedTexture(__instance, 2);
+            MaskData data = MaskDataField.data.get(__instance);
+            if (data != null) {
+                __result[0] = makeMaskedTexture(__instance, data.region, 2);
             }
         }
     }
