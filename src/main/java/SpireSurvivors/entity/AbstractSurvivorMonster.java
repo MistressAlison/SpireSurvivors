@@ -17,6 +17,7 @@ import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import com.megacrit.cardcrawl.powers.AbstractPower;
+import com.megacrit.cardcrawl.vfx.combat.DamageNumberEffect;
 
 public abstract class AbstractSurvivorMonster extends AbstractSurvivorEntity {
     public static final Color DAMAGE_TAKEN_COLOR = Color.RED.cpy();
@@ -80,6 +81,7 @@ public abstract class AbstractSurvivorMonster extends AbstractSurvivorEntity {
             monster.currentHealth -= damage;
             //monster.healthBarUpdatedEvent();
             //SurvivorDungeon.effectsQueue.add(new StrikeEffect(monster, monster.hb.cX, monster.hb.cY, (int)damage));
+            SurvivorDungeon.effectsQueue.add(new DamageNumberEffect(monster, monster.hb.cX, monster.hb.cY, (int)damage));
             if (monster.currentHealth <= 0) {
                 monster.currentHealth = 0;
                 monster.useFastShakeAnimation(1.0f);
