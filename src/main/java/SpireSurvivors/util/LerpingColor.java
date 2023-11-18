@@ -9,9 +9,9 @@ public class LerpingColor {
     public float lerpLength;
     private float lerpTime;
 
-    public LerpingColor(Color initial_color, float lerp_length) {
-        value = initial_color;
-        this.lerpLength = lerp_length;
+    public LerpingColor(Color initialColor, float lerpLength) {
+        value = initialColor;
+        this.lerpLength = lerpLength;
     }
 
     public void update() {
