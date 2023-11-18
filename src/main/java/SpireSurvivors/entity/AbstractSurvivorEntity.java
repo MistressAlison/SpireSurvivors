@@ -11,11 +11,14 @@ public abstract class AbstractSurvivorEntity {
     public float damageModifier;
     public float speed;
     public Polygon hitbox;
+
     abstract void damage(AbstractSurvivorEntity source, AbstractSurvivorWeapon weapon);
+
     public void update() {
         for (AbstractSurvivorWeapon w : weapons) {
             w.update();
         }
     }
+
     abstract void render(SpriteBatch sb);
 }
