@@ -64,9 +64,9 @@ public abstract class AbstractSurvivorInteractable {
     public void render(SpriteBatch sb) {
         sb.setColor(Color.WHITE);
         if (this.region != null) {
-            sb.draw(region, x, y + bob.y, region.packedWidth/2f, region.packedHeight/2f, region.packedWidth, region.packedHeight, scale, scale, rotation);
+            sb.draw(region, x, y + bob.y, region.packedWidth/2f, region.packedHeight/2f, region.packedWidth, region.packedHeight, scale * Settings.scale, scale * Settings.scale, rotation);
         } else if (texture != null) {
-            sb.draw(texture, x - texture.getWidth()/2f, y + bob.y -texture.getHeight()/2f, -texture.getWidth()/2f, -texture.getHeight()/2f, texture.getWidth(), texture.getHeight(), scale, scale, 0, 0, 0, texture.getWidth(), texture.getHeight(), false, false);
+            sb.draw(texture, x - texture.getWidth()/2f, y + bob.y -texture.getHeight()/2f, -texture.getWidth()/2f, -texture.getHeight()/2f, texture.getWidth(), texture.getHeight(), scale * Settings.scale, scale * Settings.scale, 0, 0, 0, texture.getWidth(), texture.getHeight(), false, false);
         }
         hb.render(sb);
     }
