@@ -36,7 +36,7 @@ public abstract class AbstractSurvivorPlayer extends AbstractSurvivorEntity {
     public float attackspeedModifier = 1f;
     public float critChance = 0f;
     public float critDamage = 2f;
-    public float rangeModifier = 1f;
+    public float attackSizeModifier = 1f;
     public float projectileSpeed = 1f;
     public float projectileDuration = 1f;
     public int projectileBounce = 0;

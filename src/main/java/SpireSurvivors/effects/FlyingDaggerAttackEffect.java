@@ -39,7 +39,7 @@ public class FlyingDaggerAttackEffect extends AbstractGameEffect {
         this.startingDuration = 0.5F;
         this.duration = 0.5F;
         this.scaleMultiplier = MathUtils.random(1.2F, 1.5F);
-        this.scale = 0.25F * Settings.scale;
+        this.scale = 0.25F * Settings.scale * SurvivorDungeon.player.attackSizeModifier;
         this.rotation = fAngle;
 
         this.color = Color.CHARTREUSE.cpy();
@@ -47,7 +47,7 @@ public class FlyingDaggerAttackEffect extends AbstractGameEffect {
         Hitbox hb = new Hitbox(ImageMaster.DAGGER_STREAK.packedWidth * Settings.scale, ImageMaster.DAGGER_STREAK.packedHeight * Settings.scale);
         hb.move(x, y);
         this.weapon = weapon;
-        this.hitbox = PolygonHelper.fromPosition(x, y, 150f*Settings.scale, 10f*Settings.scale, fAngle, 100f*Settings.scale, 5f*Settings.scale);
+        this.hitbox = PolygonHelper.fromPosition(x, y, 150f*Settings.scale * SurvivorDungeon.player.attackSizeModifier, 10f*Settings.scale * SurvivorDungeon.player.attackSizeModifier, fAngle, 100f*Settings.scale, 5f*Settings.scale);
     }
 
     private void playRandomSfX() {
