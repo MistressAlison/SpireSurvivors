@@ -1,6 +1,5 @@
 package SpireSurvivors.weapons.abstracts;
 
-import SpireSurvivors.SpireSurvivorsMod;
 import SpireSurvivors.cards.abstracts.AbstractWeaponCard;
 import SpireSurvivors.dungeon.SurvivorDungeon;
 import SpireSurvivors.entity.AbstractSurvivorPlayer;
@@ -12,6 +11,9 @@ import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.helpers.input.InputHelper;
 import com.megacrit.cardcrawl.localization.CardStrings;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 public abstract class AbstractSurvivorWeapon {
     public static final float CX = Settings.WIDTH/2f;
     public static final float CY = Settings.HEIGHT/2f;
@@ -21,6 +23,7 @@ public abstract class AbstractSurvivorWeapon {
     public float size;
     public float attackDelay;
     public int damage;
+    public int timesUpgraded;
     protected float timer;
 
     public AbstractSurvivorWeapon(String id, AbstractCard artCard, int damage, float attackDelay, float size) {
@@ -50,7 +53,25 @@ public abstract class AbstractSurvivorWeapon {
 
     public abstract void upgrade();
 
-    public void onEquip(AbstractSurvivorPlayer p) { }
+    public abstract AbstractSurvivorWeapon makeCopy();
+
+    public boolean canUpgrade() {
+        return timesUpgraded < 7;
+    }
+
+    public boolean canRoll(AbstractSurvivorPlayer p) {
+        return p.weapons.stream().noneMatch(w -> w.id.equals(this.id) && !w.canUpgrade());
+    }
+
+    public void onEquip(AbstractSurvivorPlayer p) {
+        List<AbstractSurvivorWeapon> weps = p.weapons.stream().filter(w -> w.id.equals(this.id)).collect(Collectors.toList());
+        if (!weps.isEmpty()) {
+            weps.get(0).upgrade();
+            timesUpgraded++;
+        } else {
+            p.weapons.add(makeCopy());
+        }
+    }
 
     public void onUnequip(AbstractSurvivorPlayer p) { }
 
