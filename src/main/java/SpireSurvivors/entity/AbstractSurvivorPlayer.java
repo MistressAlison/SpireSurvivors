@@ -1,9 +1,8 @@
 package SpireSurvivors.entity;
 
 import SpireSurvivors.SpireSurvivorsMod;
-import SpireSurvivors.cards.abstracts.AbstractRelicCard;
-import SpireSurvivors.cards.abstracts.AbstractWeaponCard;
 import SpireSurvivors.dungeon.SurvivorDungeon;
+import SpireSurvivors.relics.abstracts.AbstractSurvivorRelic;
 import SpireSurvivors.ui.MovementTutorial;
 import SpireSurvivors.util.PolygonHelper;
 import SpireSurvivors.weapons.abstracts.AbstractSurvivorWeapon;
@@ -29,8 +28,9 @@ public abstract class AbstractSurvivorPlayer extends AbstractSurvivorEntity {
     public static final float INV_TIME = 0.5f;
 
     public AbstractPlayer basePlayer;
-    public ArrayList<AbstractWeaponCard> weaponCards = new ArrayList<>();
-    public ArrayList<AbstractRelicCard> relicCards = new ArrayList<>();
+    public ArrayList<AbstractSurvivorRelic> relics = new ArrayList<>();
+    public int maxWeapons = 6;
+    public int maxRelics = 6;
 
     public float speedMultiplier = 1f;
     public float attackspeedModifier = 1f;
