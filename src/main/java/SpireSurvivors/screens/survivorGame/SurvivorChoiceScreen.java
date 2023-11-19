@@ -1,9 +1,11 @@
 package SpireSurvivors.screens.survivorGame;
 
 import SpireSurvivors.SpireSurvivorsMod;
+import SpireSurvivors.cards.abstracts.AbstractStatCard;
 import SpireSurvivors.cards.abstracts.AbstractSurvivorCard;
-import SpireSurvivors.cards.statCards.*;
 import SpireSurvivors.dungeon.SurvivorDungeon;
+import SpireSurvivors.relics.abstracts.AbstractSurvivorRelic;
+import SpireSurvivors.weapons.abstracts.AbstractSurvivorWeapon;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -16,6 +18,7 @@ import com.megacrit.cardcrawl.helpers.input.InputHelper;
 import com.megacrit.cardcrawl.localization.UIStrings;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class SurvivorChoiceScreen {
     private static final UIStrings uiStrings = CardCrawlGame.languagePack.getUIString(SpireSurvivorsMod.makeID("SurvivorChoiceScreen"));
@@ -58,6 +61,8 @@ public class SurvivorChoiceScreen {
         }*/
 
         if (hoveredCard != null && hoveredCard.hb.clicked) {
+            hoveredCard.hb.clickStarted = false;
+            hoveredCard.hb.clicked = false;
             hoveredCard.onSelect(SurvivorDungeon.player);
             SurvivorDungeon.currentScreen = SurvivorDungeon.CurrentScreen.NONE;
             SurvivorDungeon.isScreenUp = false;
@@ -66,11 +71,7 @@ public class SurvivorChoiceScreen {
     }
     
     public void open(boolean animated) {
-        rewardCards.clear();
-        rewardCards.add(new AttackDamage());
-        rewardCards.add(new AttackSpeed());
-        rewardCards.add(new MovementSpeed());
-        rewardCards.add(new PickupRange());
+        generateRewards();
         SurvivorDungeon.dynamicBanner.appear(TEXT[0]);
         SurvivorDungeon.isScreenUp = true;
         SurvivorDungeon.currentScreen = SurvivorDungeon.CurrentScreen.CHOICE;
@@ -91,6 +92,39 @@ public class SurvivorChoiceScreen {
             c.target_x = (float)Settings.WIDTH / 2.0F + ((float) rewardCards.indexOf(c) - (float)(rewardCards.size() - 1) / 2.0F) * (AbstractCard.IMG_WIDTH + PAD_X);
             c.render(sb);
             c.renderCardTip(sb);
+        }
+    }
+
+    private void generateRewards() {
+        rewardCards.clear();
+        ArrayList<AbstractSurvivorCard> rewardPool = new ArrayList<>();
+        ArrayList<AbstractStatCard> backupRewards = new ArrayList<>(SpireSurvivorsMod.stats);
+        if (SurvivorDungeon.player.weapons.size() < SurvivorDungeon.player.maxWeapons) {
+            for (AbstractSurvivorWeapon w : SpireSurvivorsMod.weapons) {
+                if (w.canRoll(SurvivorDungeon.player)) {
+                    rewardPool.add(w.card);
+                }
+            }
+        }
+        if (SurvivorDungeon.player.relics.size() < SurvivorDungeon.player.maxRelics) {
+            for (AbstractSurvivorRelic r : SpireSurvivorsMod.relics) {
+                if (r.canRoll(SurvivorDungeon.player)) {
+                    rewardPool.add(r.card);
+                }
+            }
+        }
+        Collections.shuffle(rewardPool);
+        Collections.shuffle(backupRewards);
+        while (rewardCards.size() < 4) {
+            if (!rewardPool.isEmpty()) {
+                rewardCards.add(rewardPool.remove(0));
+            } else {
+                rewardCards.add(backupRewards.remove(0));
+            }
+        }
+        for (AbstractCard c : rewardCards) {
+            c.current_x = Settings.WIDTH/2f;
+            c.current_y = Settings.HEIGHT/2f;
         }
     }
 }
