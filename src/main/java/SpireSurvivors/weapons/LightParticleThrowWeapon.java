@@ -3,6 +3,7 @@ package SpireSurvivors.weapons;
 import SpireSurvivors.dungeon.SurvivorDungeon;
 import SpireSurvivors.effects.BasicProjectileAttackEffect;
 import SpireSurvivors.weapons.abstracts.AbstractProjectileSurvivorWeapon;
+import SpireSurvivors.weapons.abstracts.AbstractSurvivorWeapon;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.megacrit.cardcrawl.cards.blue.BeamCell;
@@ -25,5 +26,10 @@ public class LightParticleThrowWeapon extends AbstractProjectileSurvivorWeapon {
     @Override
     public void upgrade() {
         damage += 2;
+    }
+
+    @Override
+    public AbstractSurvivorWeapon makeCopy() {
+        return new LightParticleThrowWeapon();
     }
 }

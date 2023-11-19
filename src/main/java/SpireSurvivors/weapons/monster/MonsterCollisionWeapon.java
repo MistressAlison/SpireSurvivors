@@ -1,5 +1,6 @@
 package SpireSurvivors.weapons.monster;
 
+import SpireSurvivors.entity.AbstractSurvivorPlayer;
 import SpireSurvivors.weapons.LightningSparkWeapon;
 import SpireSurvivors.weapons.abstracts.AbstractSurvivorWeapon;
 import com.badlogic.gdx.Gdx;
@@ -12,6 +13,10 @@ import static SpireSurvivors.SpireSurvivorsMod.makeID;
 public class MonsterCollisionWeapon extends AbstractSurvivorWeapon {
     public static final String ID = makeID(MonsterCollisionWeapon.class.getSimpleName());
     public static final AbstractCard ART_CARD = new Necronomicurse();
+
+    public MonsterCollisionWeapon() {
+        this(1, 1, 1);
+    }
 
     public MonsterCollisionWeapon(int damage, float attackDelay, float size) {
         super(ID, ART_CARD, damage, attackDelay, size);
@@ -37,4 +42,14 @@ public class MonsterCollisionWeapon extends AbstractSurvivorWeapon {
 
     @Override
     public void upgrade() {}
+
+    @Override
+    public AbstractSurvivorWeapon makeCopy() {
+        return new MonsterCollisionWeapon(damage, attackDelay, size);
+    }
+
+    @Override
+    public boolean canRoll(AbstractSurvivorPlayer p) {
+        return false;
+    }
 }

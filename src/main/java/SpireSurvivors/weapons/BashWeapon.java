@@ -27,4 +27,9 @@ public class BashWeapon extends AbstractSurvivorWeapon {
     public void upgrade() {
         damage += 2;
     }
+
+    @Override
+    public AbstractSurvivorWeapon makeCopy() {
+        return new BashWeapon();
+    }
 }

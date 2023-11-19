@@ -27,4 +27,9 @@ public class StrikeWeapon extends AbstractSurvivorWeapon {
     public void upgrade() {
         damage += 2;
     }
+
+    @Override
+    public AbstractSurvivorWeapon makeCopy() {
+        return new StrikeWeapon();
+    }
 }

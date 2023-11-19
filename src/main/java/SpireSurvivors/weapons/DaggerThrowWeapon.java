@@ -27,4 +27,9 @@ public class DaggerThrowWeapon extends AbstractSurvivorWeapon {
     public void upgrade() {
         damage += 2;
     }
+
+    @Override
+    public AbstractSurvivorWeapon makeCopy() {
+        return new DaggerThrowWeapon();
+    }
 }

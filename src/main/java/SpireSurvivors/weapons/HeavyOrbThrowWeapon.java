@@ -3,6 +3,7 @@ package SpireSurvivors.weapons;
 import SpireSurvivors.dungeon.SurvivorDungeon;
 import SpireSurvivors.effects.BasicProjectileAttackEffect;
 import SpireSurvivors.weapons.abstracts.AbstractProjectileSurvivorWeapon;
+import SpireSurvivors.weapons.abstracts.AbstractSurvivorWeapon;
 import com.badlogic.gdx.math.Vector2;
 import com.megacrit.cardcrawl.cards.blue.Chaos;
 import com.megacrit.cardcrawl.core.Settings;
@@ -15,10 +16,10 @@ public class HeavyOrbThrowWeapon extends AbstractProjectileSurvivorWeapon {
     private float rotate;
 
     public HeavyOrbThrowWeapon() {
-        super(ID, new Chaos(), 16, 0.5F, 100);
+        super(ID, new Chaos(), 16, 0.5F, 1);
     }
     public HeavyOrbThrowWeapon(float rotate) {
-            super(ID, new Chaos(), 16, 0.5F, 100);
+            super(ID, new Chaos(), 16, 0.5F, 1);
             this.rotate=rotate;
         }
 
@@ -31,5 +32,10 @@ public class HeavyOrbThrowWeapon extends AbstractProjectileSurvivorWeapon {
     @Override
     public void upgrade() {
         damage += 2;
+    }
+
+    @Override
+    public AbstractSurvivorWeapon makeCopy() {
+        return new HeavyOrbThrowWeapon(rotate);
     }
 }
