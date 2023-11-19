@@ -6,6 +6,7 @@ import SpireSurvivors.entity.AbstractSurvivorMonster;
 import SpireSurvivors.entity.AbstractSurvivorPlayer;
 import SpireSurvivors.patches.CardCrawlGamePatches;
 import SpireSurvivors.pickups.AbstractSurvivorInteractable;
+import SpireSurvivors.pickups.MagnetPickup;
 import SpireSurvivors.pickups.XPPickup;
 import SpireSurvivors.screens.survivorGame.SurvivorChoiceScreen;
 import SpireSurvivors.screens.survivorGame.SurvivorPauseScreen;
@@ -19,6 +20,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
@@ -128,6 +130,9 @@ public class SurvivorDungeon {
         monsters.removeIf(m -> {
             if (m.monster.isDead) {
                 pickups.add(new XPPickup(m.expAmount, m.monster.hb.cX, m.monster.hb.cY));
+                if (MathUtils.random(500) == 500) {
+                    pickups.add(new MagnetPickup(m.monster.hb.cX, m.monster.hb.cY));
+                }
             }
             return m.monster.isDead;
         });
