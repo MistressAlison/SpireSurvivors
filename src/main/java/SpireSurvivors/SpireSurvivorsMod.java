@@ -1,16 +1,15 @@
 package SpireSurvivors;
 
+import SpireSurvivors.cards.abstracts.AbstractStatCard;
 import SpireSurvivors.characters.DefectCharacter;
 import SpireSurvivors.characters.IroncladCharacter;
 import SpireSurvivors.characters.SilentCharacter;
 import SpireSurvivors.characters.WatcherCharacter;
 import SpireSurvivors.entity.AbstractSurvivorPlayer;
+import SpireSurvivors.relics.abstracts.AbstractSurvivorRelic;
 import SpireSurvivors.util.TextureLoader;
-import basemod.BaseMod;
-import basemod.ModLabel;
-import basemod.ModLabeledToggleButton;
-import basemod.ModMinMaxSlider;
-import basemod.ModPanel;
+import SpireSurvivors.weapons.abstracts.AbstractSurvivorWeapon;
+import basemod.*;
 import basemod.interfaces.EditStringsSubscriber;
 import basemod.interfaces.PostInitializeSubscriber;
 import basemod.interfaces.PostRenderSubscriber;
@@ -75,6 +74,10 @@ public class SpireSurvivorsMod implements EditStringsSubscriber, PostInitializeS
 
     public static final ArrayList<AbstractGameEffect> managedEffects = new ArrayList<>();
     public static final HashMap<AbstractPlayer.PlayerClass, Function<AbstractPlayer, AbstractSurvivorPlayer>> registeredCharacters = new HashMap<>();
+
+    public static final ArrayList<AbstractSurvivorWeapon> weapons = new ArrayList<>();
+    public static final ArrayList<AbstractSurvivorRelic> relics = new ArrayList<>();
+    public static final ArrayList<AbstractStatCard> stats = new ArrayList<>();
 
     // This doesn't work in SurvivorDungeon so I guess it's here now
     public static boolean seenMovementTutorial = false;
@@ -239,6 +242,10 @@ public class SpireSurvivorsMod implements EditStringsSubscriber, PostInitializeS
         BaseMod.registerModBadge(badgeTexture, MODNAME, AUTHOR, DESCRIPTION, settingsPanel);
 
         logger.info("Done loading badge Image and mod options");
+
+        new AutoAdd(modID).packageFilter("SpireSurvivors.weapons").any(AbstractSurvivorWeapon.class, (info, weapon) -> weapons.add(weapon));
+        new AutoAdd(modID).packageFilter("SpireSurvivors.relics").any(AbstractSurvivorRelic.class, (info, relic) -> relics.add(relic));
+        new AutoAdd(modID).packageFilter("SpireSurvivors.cards.statCards").any(AbstractStatCard.class, (into, stat) -> stats.add(stat));
     }
 
     private String loadLocalizationIfAvailable(String fileName) {
