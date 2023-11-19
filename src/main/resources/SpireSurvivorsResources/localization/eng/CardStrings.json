@@ -9,6 +9,7 @@
     "NAME": "Monster Collision Weapon",
     "DESCRIPTION": "If you see this text, something went wrong."
   },
+
   "SpireSurvivors:AttackDamage": {
     "NAME": "Attack Damage",
     "DESCRIPTION": "Increase your attack damage by 10%."
@@ -32,5 +33,30 @@
   "SpireSurvivors:PickupRange": {
     "NAME": "Pickup Range",
     "DESCRIPTION": "Increase your pickup range by 25%."
+  },
+
+  "SpireSurvivors:BashWeapon": {
+    "NAME": "Bash",
+    "DESCRIPTION": ""
+  },
+  "SpireSurvivors:DaggerThrowWeapon": {
+    "NAME": "Dagger Throw",
+    "DESCRIPTION": ""
+  },
+  "SpireSurvivors:HeavyOrbThrowWeapon": {
+    "NAME": "Chaos",
+    "DESCRIPTION": ""
+  },
+  "SpireSurvivors:LightningSparkWeapon": {
+    "NAME": "Ball Lightning",
+    "DESCRIPTION": ""
+  },
+  "SpireSurvivors:LightParticleThrowWeapon": {
+    "NAME": "Beam Cell",
+    "DESCRIPTION": ""
+  },
+  "SpireSurvivors:StrikeWeapon": {
+    "NAME": "Strike",
+    "DESCRIPTION": ""
   }
 }
