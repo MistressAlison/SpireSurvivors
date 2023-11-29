@@ -19,6 +19,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
@@ -26,6 +27,7 @@ import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.dungeons.Exordium;
 import com.megacrit.cardcrawl.helpers.input.InputAction;
+import com.megacrit.cardcrawl.helpers.input.InputHelper;
 import com.megacrit.cardcrawl.random.Random;
 import com.megacrit.cardcrawl.ui.buttons.DynamicBanner;
 import com.megacrit.cardcrawl.vfx.AbstractGameEffect;
@@ -43,16 +45,18 @@ public class SurvivorDungeon {
         DEATH
     }
     public static final TextureAtlas.AtlasRegion BACKGROUND = new TextureAtlas(Gdx.files.internal("bottomScene/scene.atlas")).findRegion("event");
-    public static final InputAction UP = new InputAction(Input.Keys.W);
-    public static final InputAction LEFT = new InputAction(Input.Keys.A);
-    public static final InputAction DOWN = new InputAction(Input.Keys.S);
-    public static final InputAction RIGHT = new InputAction(Input.Keys.D);
+    public static final InputAction UP = new InputAction(Input.Keys.W, Input.Keys.UP);
+    public static final InputAction LEFT = new InputAction(Input.Keys.A, Input.Keys.LEFT);
+    public static final InputAction DOWN = new InputAction(Input.Keys.S, Input.Keys.DOWN);
+    public static final InputAction RIGHT = new InputAction(Input.Keys.D, Input.Keys.RIGHT);
     public static final InputAction PAUSE = new InputAction(Input.Keys.ESCAPE);
+    public static final InputAction ACTION_MAIN = new InputAction(Input.Keys.SHIFT_LEFT).alt(Input.Buttons.LEFT);
+    public static final InputAction ACTION_SUB = new InputAction(Input.Keys.CONTROL_LEFT).alt(Input.Buttons.RIGHT);
 
     public static AbstractSurvivorPlayer player;
     public static SurvivorUI ui;
     public static ArrayList<AbstractSurvivorMonster> monsters = new ArrayList<>();
-    public static ArrayList<AbstractSurvivorInteractable> pickups = new ArrayList<>();
+    public static ArrayList<PickupPool> pickupPools = new ArrayList<>(4);
     public static ArrayList<AbstractGameEffect> effects = new ArrayList<>();
     public static ArrayList<AbstractGameEffect> effectsQueue = new ArrayList<>();
 
@@ -98,13 +102,11 @@ public class SurvivorDungeon {
         camera.setToOrtho(false);
         map = new TmxMapLoader().load(SpireSurvivorsMod.getModID()+"Resources/tiled/TestMap.tmx");
         mapRenderer = new OrthogonalTiledMapRenderer(map, 16f * Settings.scale);
+
+        pickupPools.add(new PickupPool());
     }
 
     public void update() {
-        if (player.rewards > 0) {
-            survivorChoiceScreen.open(false);
-            player.rewards--;
-        }
         switch (currentScreen) {
             case PAUSE:
                 survivorPauseScreen.update();
@@ -115,6 +117,10 @@ public class SurvivorDungeon {
             case DEATH:
                 break;
             case NONE:
+                if (player.rewards > 0) {
+                    survivorChoiceScreen.open(false);
+                    player.rewards--;
+                }
                 updateGameLogic();
                 break;
         }
@@ -127,14 +133,21 @@ public class SurvivorDungeon {
         updateInput();
         monsters.removeIf(m -> {
             if (m.monster.isDead) {
-                pickups.add(new XPPickup(m.expAmount, m.monster.hb.cX, m.monster.hb.cY));
+                for (int i = 0; i < m.xpCount; i++) {
+                    float x = m.monster.hb.cX;
+                    float y = m.monster.hb.cY;
+                    if (m.xpCount > 1) PickupPool.spawnScattered(x, y, AbstractPickup.PickupType.XP, m.xpCompression, false);
+                    else PickupPool.spawn(x, y, AbstractPickup.PickupType.XP, m.xpCompression, true);
+                }
             }
             return m.monster.isDead;
         });
+
         for (AbstractSurvivorMonster m : monsters) {
             m.update();
         }
         spawnController.update();
+
         effects.addAll(effectsQueue);
         effects.addAll(AbstractDungeon.effectsQueue);
         effectsQueue.clear();
@@ -143,10 +156,8 @@ public class SurvivorDungeon {
             e.update();
         }
         effects.removeIf(e -> e.isDone);
-        for (AbstractSurvivorInteractable i : pickups) {
-            i.update();
-        }
-        pickups.removeIf(i -> i.isDone);
+
+        PickupPool.update();
 
         if (player.basePlayer.isDead) {
             CardCrawlGame.startOver();
@@ -217,15 +228,19 @@ public class SurvivorDungeon {
                 m.render(sb);
             }
         }
+
         player.render(sb);
+
         for (AbstractSurvivorMonster m : monsters) {
             if (m.monster.hb.cY > Settings.HEIGHT/2f) {
                 m.render(sb);
             }
         }
+
         for (AbstractGameEffect e : effects) {
             e.render(sb);
         }
+
         ui.render(sb);
         switch (currentScreen) {
             case PAUSE:
@@ -239,6 +254,7 @@ public class SurvivorDungeon {
             case NONE:
                 break;
         }
+
         dynamicBanner.render(sb);
     }
 
@@ -246,7 +262,7 @@ public class SurvivorDungeon {
         monsters.clear();
         effects.clear();
         effectsQueue.clear();
-        pickups.clear();
+        pickupPools.clear();
         if (map != null) {
             map.dispose();
         }
