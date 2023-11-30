@@ -71,8 +71,8 @@ public abstract class AbstractSurvivorPlayer extends AbstractSurvivorEntity {
     public ProgressBar healthBar;
     public static final Texture HEALTH_BAR_BG = new Texture("SpireSurvivorsResources/images/ui/bars/health-bg.png");
     public static final Texture HEALTH_BAR_FILL = new Texture("SpireSurvivorsResources/images/ui/bars/health-fill.png");
-    public static final float HEALTH_BAR_SCALE = 0.5f;
-    public static final float HEALTH_BAR_OFFSET = 60f;
+    public static final float HEALTH_BAR_SCALE = 0.5f * Settings.scale;
+    public static final float HEALTH_BAR_OFFSET = 20f * Settings.scale;
 
     public AbstractSurvivorPlayer(AbstractPlayer p) {
         speed = 5f;
@@ -160,8 +160,7 @@ public abstract class AbstractSurvivorPlayer extends AbstractSurvivorEntity {
         basePlayer.renderPlayerImage(sb);
 
         if (basePlayer.currentHealth != basePlayer.maxHealth) {
-            // TODO: Fix healthbar overlapping some characters, finetune healthbar position
-            healthBar.render(sb, basePlayer.hb.cX, basePlayer.hb.y + basePlayer.hb.height + HEALTH_BAR_OFFSET, HEALTH_BAR_SCALE);
+            healthBar.render(sb, basePlayer.hb.cX, basePlayer.hb.y + basePlayer.hb.height * 3 + HEALTH_BAR_OFFSET, HEALTH_BAR_SCALE);
         }
 
         if (!SpireSurvivorsMod.seenMovementTutorial) {

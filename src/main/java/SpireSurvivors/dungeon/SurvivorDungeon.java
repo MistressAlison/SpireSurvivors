@@ -151,6 +151,7 @@ public class SurvivorDungeon {
         for (AbstractSurvivorInteractable pickup : pickups) {
             pickup.update();
         }
+        pickups.removeIf(i -> i.isDone);
 
         if (player.basePlayer.isDead) {
             CardCrawlGame.startOver();
