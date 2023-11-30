@@ -11,6 +11,7 @@ import SpireSurvivors.pickups.XPPickup;
 import SpireSurvivors.screens.survivorGame.SurvivorChoiceScreen;
 import SpireSurvivors.screens.survivorGame.SurvivorPauseScreen;
 import SpireSurvivors.ui.SurvivorUI;
+import SpireSurvivors.util.InputAction;
 import SpireSurvivors.util.SpawnController;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -27,7 +28,6 @@ import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.dungeons.Exordium;
-import com.megacrit.cardcrawl.helpers.input.InputAction;
 import com.megacrit.cardcrawl.random.Random;
 import com.megacrit.cardcrawl.ui.buttons.DynamicBanner;
 import com.megacrit.cardcrawl.vfx.AbstractGameEffect;
@@ -45,11 +45,13 @@ public class SurvivorDungeon {
         DEATH
     }
     public static final TextureAtlas.AtlasRegion BACKGROUND = new TextureAtlas(Gdx.files.internal("bottomScene/scene.atlas")).findRegion("event");
-    public static final InputAction UP = new InputAction(Input.Keys.W);
-    public static final InputAction LEFT = new InputAction(Input.Keys.A);
-    public static final InputAction DOWN = new InputAction(Input.Keys.S);
-    public static final InputAction RIGHT = new InputAction(Input.Keys.D);
+    public static final InputAction UP = new InputAction(Input.Keys.W, Input.Keys.UP);
+    public static final InputAction LEFT = new InputAction(Input.Keys.A, Input.Keys.LEFT);
+    public static final InputAction DOWN = new InputAction(Input.Keys.S, Input.Keys.DOWN);
+    public static final InputAction RIGHT = new InputAction(Input.Keys.D, Input.Keys.RIGHT);
     public static final InputAction PAUSE = new InputAction(Input.Keys.ESCAPE);
+    public static final InputAction ACTION_MAIN = new InputAction(Input.Keys.SHIFT_LEFT).alt(Input.Buttons.LEFT);
+    public static final InputAction ACTION_SUB = new InputAction(Input.Keys.CONTROL_LEFT).alt(Input.Buttons.RIGHT);
 
     public static AbstractSurvivorPlayer player;
     public static SurvivorUI ui;
@@ -103,10 +105,6 @@ public class SurvivorDungeon {
     }
 
     public void update() {
-        if (player.rewards > 0) {
-            survivorChoiceScreen.open(false);
-            player.rewards--;
-        }
         switch (currentScreen) {
             case PAUSE:
                 survivorPauseScreen.update();
@@ -117,6 +115,10 @@ public class SurvivorDungeon {
             case DEATH:
                 break;
             case NONE:
+                if (player.rewards > 0) {
+                    survivorChoiceScreen.open(false);
+                    player.rewards--;
+                }
                 updateGameLogic();
                 break;
         }
@@ -136,20 +138,23 @@ public class SurvivorDungeon {
             }
             return m.monster.isDead;
         });
+
         for (AbstractSurvivorMonster m : monsters) {
             m.update();
         }
         spawnController.update();
+
         effects.addAll(effectsQueue);
-        effectsQueue.clear();
         effects.addAll(AbstractDungeon.effectsQueue);
+        effectsQueue.clear();
         AbstractDungeon.effectsQueue.clear();
         for (AbstractGameEffect e : effects) {
             e.update();
         }
         effects.removeIf(e -> e.isDone);
-        for (AbstractSurvivorInteractable i : pickups) {
-            i.update();
+
+        for (AbstractSurvivorInteractable pickup : pickups) {
+            pickup.update();
         }
         pickups.removeIf(i -> i.isDone);
 
@@ -222,15 +227,19 @@ public class SurvivorDungeon {
                 m.render(sb);
             }
         }
+
         player.render(sb);
+
         for (AbstractSurvivorMonster m : monsters) {
             if (m.monster.hb.cY > Settings.HEIGHT/2f) {
                 m.render(sb);
             }
         }
+
         for (AbstractGameEffect e : effects) {
             e.render(sb);
         }
+
         ui.render(sb);
         switch (currentScreen) {
             case PAUSE:
@@ -244,6 +253,7 @@ public class SurvivorDungeon {
             case NONE:
                 break;
         }
+
         dynamicBanner.render(sb);
     }
 
