@@ -10,6 +10,7 @@ import SpireSurvivors.pickups.XPPickup;
 import SpireSurvivors.screens.survivorGame.SurvivorChoiceScreen;
 import SpireSurvivors.screens.survivorGame.SurvivorPauseScreen;
 import SpireSurvivors.ui.SurvivorUI;
+import SpireSurvivors.util.InputAction;
 import SpireSurvivors.util.SpawnController;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -19,15 +20,12 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.dungeons.Exordium;
-import com.megacrit.cardcrawl.helpers.input.InputAction;
-import com.megacrit.cardcrawl.helpers.input.InputHelper;
 import com.megacrit.cardcrawl.random.Random;
 import com.megacrit.cardcrawl.ui.buttons.DynamicBanner;
 import com.megacrit.cardcrawl.vfx.AbstractGameEffect;
@@ -56,7 +54,7 @@ public class SurvivorDungeon {
     public static AbstractSurvivorPlayer player;
     public static SurvivorUI ui;
     public static ArrayList<AbstractSurvivorMonster> monsters = new ArrayList<>();
-    public static ArrayList<PickupPool> pickupPools = new ArrayList<>(4);
+    public static ArrayList<AbstractSurvivorInteractable> pickups = new ArrayList<>();
     public static ArrayList<AbstractGameEffect> effects = new ArrayList<>();
     public static ArrayList<AbstractGameEffect> effectsQueue = new ArrayList<>();
 
@@ -102,8 +100,6 @@ public class SurvivorDungeon {
         camera.setToOrtho(false);
         map = new TmxMapLoader().load(SpireSurvivorsMod.getModID()+"Resources/tiled/TestMap.tmx");
         mapRenderer = new OrthogonalTiledMapRenderer(map, 16f * Settings.scale);
-
-        pickupPools.add(new PickupPool());
     }
 
     public void update() {
@@ -133,12 +129,7 @@ public class SurvivorDungeon {
         updateInput();
         monsters.removeIf(m -> {
             if (m.monster.isDead) {
-                for (int i = 0; i < m.xpCount; i++) {
-                    float x = m.monster.hb.cX;
-                    float y = m.monster.hb.cY;
-                    if (m.xpCount > 1) PickupPool.spawnScattered(x, y, AbstractPickup.PickupType.XP, m.xpCompression, false);
-                    else PickupPool.spawn(x, y, AbstractPickup.PickupType.XP, m.xpCompression, true);
-                }
+                pickups.add(new XPPickup(m.expAmount, m.monster.hb.cX, m.monster.hb.cY));
             }
             return m.monster.isDead;
         });
@@ -157,7 +148,9 @@ public class SurvivorDungeon {
         }
         effects.removeIf(e -> e.isDone);
 
-        PickupPool.update();
+        for (AbstractSurvivorInteractable pickup : pickups) {
+            pickup.update();
+        }
 
         if (player.basePlayer.isDead) {
             CardCrawlGame.startOver();
@@ -262,7 +255,7 @@ public class SurvivorDungeon {
         monsters.clear();
         effects.clear();
         effectsQueue.clear();
-        pickupPools.clear();
+        pickups.clear();
         if (map != null) {
             map.dispose();
         }
